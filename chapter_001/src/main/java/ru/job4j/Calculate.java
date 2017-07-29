@@ -7,12 +7,11 @@ package ru.job4j;
  * @version 1
  */
 public class Calculate{
-
-/**
- * Main
- * @param args 
- * @return Метод ничего не возвращает
- */ 
+    /**
+ 	 * Main
+ 	 * @param args 
+ 	 * @return Метод ничего не возвращает
+ 	 */ 
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
 	}
