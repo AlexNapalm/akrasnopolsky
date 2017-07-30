@@ -6,12 +6,11 @@ package ru.job4j;
  * @since 29.07.2017
  * @version 1
  */
-public class Calculate{
+public class Calculate {
     /**
- 	 * Main
- 	 * @param args 
- 	 * @return Метод ничего не возвращает
- 	 */ 
+ 	 * Main.
+ 	 * @param args массив строковых аргументов.
+ 	 */
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
 	}
