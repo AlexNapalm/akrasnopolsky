@@ -5,11 +5,6 @@ package ru.job4j.loop;
  * 4.3. Построить шахматную доску в псевдографике. [#13559]
  */
 public class Board {
-    public static void main(String[] args) {
-        System.out.println(paint(5, 4));
-        System.out.printf("end");
-    }
-
     /**
      * Метод для построения шахматной доски в псевдографике.
      * @param width ширина доски.

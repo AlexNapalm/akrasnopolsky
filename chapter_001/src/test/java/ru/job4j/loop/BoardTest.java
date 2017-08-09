@@ -6,11 +6,11 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Класс для тестирования класса Board
+ * Класс для тестирования класса Board.
  */
 public class BoardTest {
     /**
-     * Тест метода paint, построение доски размером 3х3
+     * Тест метода paint, построение доски размером 3х3.
      */
     @Test
     public void whenPaintBoardWithWidthThreeAndHeightThreeThenStringWithThreeColsAndThreeRows() {
@@ -22,7 +22,7 @@ public class BoardTest {
     }
 
     /**
-     * Тест метода paint, построение доски размером 5х4
+     * Тест метода paint, построение доски размером 5х4.
      */
     @Test
     public void whenPaintBoardWithWidthFiveAndHeightFourThenStringWithFiveColsAndFourRows() {
