@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.job4j</groupId>
-    <artifactId>junior</artifactId>
+    <artifactId>akrasnopolsky</artifactId>
     <packaging>pom</packaging>
     <version>2.0</version>
-    <name>junior</name>
+    <name>akrasnopolsky</name>
     <url>http://job4j.ru/</url>
 
     <properties>
@@ -15,6 +15,7 @@
 
     <modules>
         <module>chapter_001</module>
+        <module>chapter_002</module>
     </modules>
 	
 	<dependencies>
@@ -34,6 +35,14 @@
 	
 	    <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <compilerVersion>1.8</compilerVersion>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>

@@ -26,7 +26,7 @@ import static org.junit.Assert.assertThat;
 	 			out.toString(),
 	 			is(
 					String.format(
-							"Hello World%s",
+							"Hello world!%s",
 							System.getProperty("line.separator")
 					)
 				)
