@@ -17,11 +17,11 @@ public class Merge {
         int i2 = 0;
         for (int i = 0; i < resultArrayLength; i++) {
             if (i1 == firstArray.length) {
-                resultArray[i] = secondArray[i2];
-                i2++;
+                System.arraycopy(secondArray, i2, resultArray, i, secondArray.length - i2);
+                return resultArray;
             } else if (i2 == secondArray.length) {
-                resultArray[i] = firstArray[i1];
-                i1++;
+                System.arraycopy(firstArray, i1, resultArray, i, firstArray.length - i1);
+                return resultArray;
             } else {
                 if (firstArray[i1] < secondArray[i2]) {
                     resultArray[i] = firstArray[i1];
