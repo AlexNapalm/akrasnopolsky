@@ -20,7 +20,13 @@ public class Substring {
             if (originCharArray[i] == subCharArray[0]) {
                 for (int j = 1; j < subCharArray.length; j++) {
                     result = subCharArray[j] == originCharArray[i + j];
+                    if (!result) {
+                        return result;
+                    }
                 }
+            }
+            if (i >= subCharArray.length) {
+                return result;
             }
         }
         return result;
