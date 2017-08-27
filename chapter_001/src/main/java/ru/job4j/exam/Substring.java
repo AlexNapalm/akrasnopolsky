@@ -23,10 +23,10 @@ public class Substring {
                     if (!result) {
                         return result;
                     }
+                    if (j == subCharArray.length - 1 && result) {
+                        return result;
+                    }
                 }
-            }
-            if (i >= subCharArray.length) {
-                return result;
             }
         }
         return result;
