@@ -21,7 +21,7 @@ public class Substring {
                 for (int j = 1; j < subCharArray.length; j++) {
                     result = subCharArray[j] == originCharArray[i + j];
                     if (!result) {
-                        return result;
+                        break;
                     }
                     if (j == subCharArray.length - 1 && result) {
                         return result;
