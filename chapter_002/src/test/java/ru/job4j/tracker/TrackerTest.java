@@ -41,9 +41,14 @@ public class TrackerTest {
     public void whenDeleteItemThenTrackerHasNoSuchItem() {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription", 123L);
+        Item item2 = new Item("test2", "testDescription2", 456L);
+        Item item3 = new Item("test3", "testDescription3", 789L);
         tracker.add(item);
-        tracker.delete(item);
-        assertThat(tracker.findAll().length, is(0));
+        tracker.add(item2);
+        tracker.add(item3);
+        tracker.delete(item2);
+        Item[] expected = {item, item3};
+        assertThat(tracker.findAll(), is(expected));
     }
 
     /**
@@ -53,8 +58,12 @@ public class TrackerTest {
     public void whenTrackerHasItemsReturnArrayOfItems() {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription", 123L);
+        Item item2 = new Item("test2", "testDescription2", 456L);
+        Item item3 = new Item("test3", "testDescription3", 789L);
         tracker.add(item);
-        Item[] expected = {item};
+        tracker.add(item2);
+        tracker.add(item3);
+        Item[] expected = {item, item2, item3};
         assertThat(tracker.findAll(), is(expected));
     }
 

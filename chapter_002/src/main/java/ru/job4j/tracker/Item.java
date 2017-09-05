@@ -10,17 +10,17 @@ public class Item {
     private String id;
 
     /**
-     * имя заявителя.
+     * Заголовок заявки.
      */
     private String name;
 
     /**
-     * описание заявки.
+     * Описание заявки.
      */
     private String description;
 
     /**
-     * дата создания.
+     * Дата создания.
      */
     private long create;
 

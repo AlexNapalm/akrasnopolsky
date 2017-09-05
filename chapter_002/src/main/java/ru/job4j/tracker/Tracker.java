@@ -26,8 +26,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         item.setId(this.generateId());
-        this.items[position] = item;
-        position++;
+        this.items[this.position++] = item;
         return item;
     }
 
@@ -49,10 +48,10 @@ public class Tracker {
      * @param item заявка.
      */
     public void delete(Item item) {
-        for (Item searchItem : items) {
-           if (searchItem.getId().equals(item.getId())) {
-               searchItem = null;
-               position--;
+        for (int i = 0; i < this.items.length; i++) {
+           if (this.items[i].getId().equals(item.getId())) {
+               System.arraycopy(this.items, i + 1, this.items, i, this.items.length - i - 1);
+               this.position--;
                break;
            }
         }
@@ -64,8 +63,10 @@ public class Tracker {
      */
     public Item[] findAll() {
         Item[] result = new Item[this.position];
-        for (int i = 0; i < this.position; i++) {
-            result[i] = this.items[i];
+        for (int i = 0; i < this.items.length; i++) {
+            if (this.items[i] != null) {
+                result[i] = this.items[i];
+            }
         }
         return result;
     }
