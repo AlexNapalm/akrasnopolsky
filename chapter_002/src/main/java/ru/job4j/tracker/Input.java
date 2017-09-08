@@ -10,10 +10,4 @@ public interface Input {
      * @return объект scanner для ввода с клавиатуры.
      */
     String ask(String question);
-
-    /**
-     * Ввод числа с клавиатуры.
-     * @return объект scanner для ввода с клавиатуры.
-     */
-    int enterNumber();
 }

@@ -17,13 +17,4 @@ public class ConsoleInput implements Input {
         System.out.print(question);
         return scanner.nextLine();
     }
-
-    /**
-     * Метод для ввода числа с клавиатуры.
-     * @return объект scanner для ввода с клавиатуры.
-     */
-    public int enterNumber() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
-    }
 }
