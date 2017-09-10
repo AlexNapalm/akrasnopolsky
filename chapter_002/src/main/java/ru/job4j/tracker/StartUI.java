@@ -44,6 +44,7 @@ public class StartUI {
     /**
      * Конструктор.
      * @param input объект, реализующий интерфейс Input.
+     * @param tracker объект tracker.
      */
     public StartUI(Input input, Tracker tracker) {
         this.input = input;
@@ -65,23 +66,35 @@ public class StartUI {
 
         if (userChoice.equals(ADD)) {
             addItem();
+            System.out.println(" ");
+            init();
         } else if (userChoice.equals(SHOW_ALL)) {
             showAll();
+            System.out.println(" ");
+            init();
         } else if (userChoice.equals(EDIT_ITEM)) {
             editItem();
+            System.out.println(" ");
+            init();
         } else if (userChoice.equals(DELETE_ITEM)) {
             deleteItem();
+            System.out.println(" ");
+            init();
         } else if (userChoice.equals(FIND_BY_ID)) {
             findById();
+            System.out.println(" ");
+            init();
         } else if (userChoice.equals(FIND_BY_NAME)) {
             findByName();
+            System.out.println(" ");
+            init();
         } else if (userChoice.equals(EXIT)) {
-            System.exit(0);
+            System.out.print("");
         } else {
             System.out.println("Error. Try again.");
+            System.out.println(" ");
+            init();
         }
-        System.out.println(" ");
-        init();
     }
 
     /**
@@ -151,7 +164,7 @@ public class StartUI {
      */
     public static void main(String[] args) {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[] {"0", "hello", "world", "6"});
+        Input input = new ConsoleInput();
         new StartUI(input, tracker).init();
     }
 }
