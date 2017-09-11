@@ -55,46 +55,43 @@ public class StartUI {
      * Инициализация меню.
      */
     public void init() {
-        System.out.println("0. Add new Item");
-        System.out.println("1. Show all items");
-        System.out.println("2. Edit item");
-        System.out.println("3. Delete item");
-        System.out.println("4. Find item by Id");
-        System.out.println("5. Find items by name");
-        System.out.println("6. Exit Program");
-        String userChoice = input.ask("Select: ");
+        String userChoice;
+        do {
+            System.out.println("0. Add new Item");
+            System.out.println("1. Show all items");
+            System.out.println("2. Edit item");
+            System.out.println("3. Delete item");
+            System.out.println("4. Find item by Id");
+            System.out.println("5. Find items by name");
+            System.out.println("6. Exit Program");
+            userChoice = input.ask("Select: ");
 
-        if (userChoice.equals(ADD)) {
-            addItem();
-            System.out.println(" ");
-            init();
-        } else if (userChoice.equals(SHOW_ALL)) {
-            showAll();
-            System.out.println(" ");
-            init();
-        } else if (userChoice.equals(EDIT_ITEM)) {
-            editItem();
-            System.out.println(" ");
-            init();
-        } else if (userChoice.equals(DELETE_ITEM)) {
-            deleteItem();
-            System.out.println(" ");
-            init();
-        } else if (userChoice.equals(FIND_BY_ID)) {
-            findById();
-            System.out.println(" ");
-            init();
-        } else if (userChoice.equals(FIND_BY_NAME)) {
-            findByName();
-            System.out.println(" ");
-            init();
-        } else if (userChoice.equals(EXIT)) {
-            System.out.print("");
-        } else {
-            System.out.println("Error. Try again.");
-            System.out.println(" ");
-            init();
-        }
+            if (userChoice.equals(ADD)) {
+                addItem();
+                System.out.println(" ");
+            } else if (userChoice.equals(SHOW_ALL)) {
+                showAll();
+                System.out.println(" ");
+            } else if (userChoice.equals(EDIT_ITEM)) {
+                editItem();
+                System.out.println(" ");
+            } else if (userChoice.equals(DELETE_ITEM)) {
+                deleteItem();
+                System.out.println(" ");
+            } else if (userChoice.equals(FIND_BY_ID)) {
+                findById();
+                System.out.println(" ");
+            } else if (userChoice.equals(FIND_BY_NAME)) {
+                findByName();
+                System.out.println(" ");
+            } else if (userChoice.equals(EXIT)) {
+                System.out.print("");
+            } else {
+                System.out.println("Error. Try again.");
+                System.out.println(" ");
+            }
+        } while (userChoice.equals(ADD) || userChoice.equals(SHOW_ALL) || userChoice.equals(EDIT_ITEM)
+                || userChoice.equals(DELETE_ITEM) || userChoice.equals(FIND_BY_ID) || userChoice.equals(FIND_BY_NAME));
     }
 
     /**
