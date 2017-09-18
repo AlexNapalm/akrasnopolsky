@@ -29,4 +29,15 @@ public class StubInput implements Input {
     public String ask(String question) {
         return this.answers[position++];
     }
+
+    /**
+     * Метод для ввода строки с клавиатуры.
+     * @param question вопрос, на который пользователь должен ввести ответ с клавиатуры.
+     * @param range массив допустим значений, которые допускаются к вводу.
+     * @return ответ пользователя.
+     */
+    public int ask(String question, int[] range) {
+        //throw new UnsupportedOperationException("Unsupported operation");
+        return 0;
+    }
 }

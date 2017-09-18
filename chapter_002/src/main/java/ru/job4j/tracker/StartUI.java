@@ -6,13 +6,10 @@ package ru.job4j.tracker;
 public class StartUI {
 
     /**
-     * Значение для выхода из программы.
-     */
-    private static final int EXIT = 6;
-    /**
      * Объект, реализующий интерфейс Input.
      */
     private Input input;
+
     /**
      * Объект трекер.
      */
@@ -33,13 +30,12 @@ public class StartUI {
      */
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
-        int key;
+        int[] ranges = menu.getRange();
         menu.fillActions();
         do {
             menu.show();
-            key = Integer.valueOf(input.ask("Select: "));
-            menu.select(key);
-        } while (key != EXIT);
+            menu.select(input.ask("Select: ", ranges));
+        } while (!"y".equals(this.input.ask("Exit? (y): ")));
     }
 
     /**
@@ -48,7 +44,7 @@ public class StartUI {
      */
     public static void main(String[] args) {
         Tracker tracker = new Tracker();
-        Input input = new ConsoleInput();
+        Input input = new ValidateInput();
         new StartUI(input, tracker).init();
     }
 }

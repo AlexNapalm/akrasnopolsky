@@ -54,7 +54,7 @@ public class MenuTracker {
     /**
      * Массив возможных действий для пользователя.
      */
-    private UserAction[] actions = new UserAction[7];
+    private UserAction[] actions = new UserAction[6];
 
 
     /**
@@ -77,7 +77,18 @@ public class MenuTracker {
         this.actions[3] = new DeleteItem();
         this.actions[4] = new FindItemById();
         this.actions[5] = new FindItemByName();
-        this.actions[6] = new ExitProgram();
+    }
+
+    /**
+     * Геттер для получения диапазона, допустимого к выбору.
+     * @return массив, ширина которого равна допустимому диапазону для выбора.
+     */
+    public int[] getRange() {
+        int[] range = new int[this.actions.length];
+        for (int i = 0; i < this.actions.length; i++) {
+            range[i] = i;
+        }
+        return range;
     }
 
     /**
@@ -262,37 +273,6 @@ public class MenuTracker {
          */
         public String info() {
             return String.format("%s. %s", this.key(), "Find item by name.");
-        }
-    }
-
-    /**
-     * Класс описывает выход из программы.
-     */
-    private class ExitProgram implements UserAction {
-
-        /**
-         * Ключ-идентификатор пункта меню.
-         * @return номер пункта меню.
-         */
-        public int key() {
-            return 6;
-        }
-
-        /**
-         * Выполнение.
-         * @param input объект реализующий интерфейс Input.
-         * @param tracker объект Tracker.
-         */
-        public void execute(Input input, Tracker tracker) {
-            // пустая реализация
-        }
-
-        /**
-         * Описание пункта меню.
-         * @return Описание пункта меню.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Exit program.");
         }
     }
 }

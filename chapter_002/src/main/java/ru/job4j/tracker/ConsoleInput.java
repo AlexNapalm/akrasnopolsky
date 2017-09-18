@@ -17,4 +17,26 @@ public class ConsoleInput implements Input {
         System.out.print(question);
         return scanner.nextLine();
     }
+
+    /**
+     * Метод для ввода строки с клавиатуры.
+     * @param question вопрос, на который пользователь должен ввести ответ
+     * @param range массив допустим значений, которые допускаются к вводу.
+     * @return объект scanner для ввода с клавиатуры.
+     */
+    public int ask(String question, int[] range) {
+        int key = Integer.valueOf(this.ask(question));
+        boolean exist = false;
+        for (int value : range) {
+            if (value == key) {
+                exist = true;
+                break;
+            }
+        }
+        if (exist) {
+            return key;
+        } else  {
+            throw new MenuOutException("Out of menu range");
+        }
+    }
 }
