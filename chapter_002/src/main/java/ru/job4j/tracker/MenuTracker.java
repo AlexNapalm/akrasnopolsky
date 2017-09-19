@@ -3,14 +3,21 @@ package ru.job4j.tracker;
 /**
  * Класс, описывающий редактирование заявки.
  */
-class EditItem implements UserAction {
+class EditItem extends BaseAction {
+
+    /**
+     * Основной конструктор.
+     */
+    EditItem() {
+        super(2, "Edit item.");
+    }
 
     /**
      * Идентификатор пункта меню.
      * @return Идентификатор пункта меню
      */
     public int key() {
-        return 2;
+        return this.getKey();
     }
 
     /**
@@ -32,7 +39,7 @@ class EditItem implements UserAction {
      * @return Описание пункта меню.
      */
     public String info() {
-        return String.format("%s. %s", this.key(), "Edit item.");
+        return String.format("%s. %s", this.getKey(), this.getName());
     }
 }
 
@@ -56,6 +63,10 @@ public class MenuTracker {
      */
     private UserAction[] actions = new UserAction[6];
 
+    /**
+     * Порядковый номер пункта меню в массиве.
+     */
+    private int position = 0;
 
     /**
      * Основной конструктор.
@@ -71,12 +82,20 @@ public class MenuTracker {
      * Заполнение массива возможными действиями.
      */
     public void fillActions() {
-        this.actions[0] = new AddItem();
-        this.actions[1] = new ShowItems();
-        this.actions[2] = new EditItem();
-        this.actions[3] = new DeleteItem();
-        this.actions[4] = new FindItemById();
-        this.actions[5] = new FindItemByName();
+        this.actions[position++] = new AddItem();
+        this.actions[position++] = new ShowItems();
+        this.actions[position++] = new EditItem();
+        this.actions[position++] = new DeleteItem();
+        this.actions[position++] = new FindItemById();
+        this.actions[position++] = new FindItemByName();
+    }
+
+    /**
+     * Добавление нового действия в массив действий.
+     * @param action действие.
+     */
+    public void addAction(UserAction action) {
+        this.actions[position++] = action;
     }
 
     /**
@@ -113,14 +132,21 @@ public class MenuTracker {
     /**
      * Класс описывает добавление заявки.
      */
-    private class AddItem implements UserAction {
+    private class AddItem extends BaseAction {
+
+        /**
+         * Конструктор.
+         */
+        AddItem() {
+            super(0, "Add the new item.");
+        }
 
         /**
          * Ключ-идентификатор пункта меню.
          * @return номер пункта меню.
          */
         public int key() {
-            return 0;
+            return this.getKey();
         }
 
         /**
@@ -139,7 +165,7 @@ public class MenuTracker {
          * @return Описание пункта меню.
          */
         public String info() {
-            return String.format("%s. %s", this.key(), "Add the new item.");
+            return String.format("%s. %s", this.getKey(), this.getName());
         }
     }
 
@@ -147,14 +173,21 @@ public class MenuTracker {
     /**
      * Класс описывает вывод на экран всех заявок в трекере.
      */
-    private static class ShowItems implements UserAction {
+    private static class ShowItems extends BaseAction {
+
+        /**
+         * Конструктор.
+         */
+        ShowItems() {
+            super(1, "Show all items.");
+        }
 
         /**
          * Ключ-идентификатор пункта меню.
          * @return номер пункта меню.
          */
         public int key() {
-            return 1;
+            return this.getKey();
         }
 
         /**
@@ -173,21 +206,28 @@ public class MenuTracker {
          * @return Описание пункта меню.
          */
         public String info() {
-            return String.format("%s. %s", this.key(), "Show all items.");
+            return String.format("%s. %s", this.getKey(), this.getName());
         }
     }
 
     /**
      * Класс описывает удаление заявки.
      */
-    private class DeleteItem implements UserAction {
+    private class DeleteItem extends BaseAction {
+
+        /**
+         * Конструктор.
+         */
+        DeleteItem() {
+            super(3, "Delete item.");
+        }
 
         /**
          * Ключ-идентификатор пункта меню.
          * @return номер пункта меню.
          */
         public int key() {
-            return 3;
+            return this.getKey();
         }
 
         /**
@@ -205,21 +245,28 @@ public class MenuTracker {
          * @return Описание пункта меню.
          */
         public String info() {
-            return String.format("%s. %s", this.key(), "Delete item.");
+            return String.format("%s. %s", this.getKey(), this.getName());
         }
     }
 
     /**
      * Класс описывает поиск заявки по id.
      */
-    private class FindItemById implements UserAction {
+    private class FindItemById extends BaseAction {
+
+        /**
+         * Конструктор.
+         */
+        FindItemById() {
+            super(4, "Find item by id.");
+        }
 
         /**
          * Ключ-идентификатор пункта меню.
          * @return номер пункта меню.
          */
         public int key() {
-            return 4;
+            return this.getKey();
         }
 
         /**
@@ -238,21 +285,28 @@ public class MenuTracker {
          * @return Описание пункта меню.
          */
         public String info() {
-            return String.format("%s. %s", this.key(), "Find item by id.");
+            return String.format("%s. %s", this.getKey(), this.getName());
         }
     }
 
     /**
      * Класс описывает поиск заявки по имени.
      */
-    private class FindItemByName implements UserAction {
+    private class FindItemByName extends BaseAction {
+
+        /**
+         * Конструктор.
+         */
+        FindItemByName() {
+            super(5, "Find item by name.");
+        }
 
         /**
          * Ключ-идентификатор пункта меню.
          * @return номер пункта меню.
          */
         public int key() {
-            return 5;
+            return this.getKey();
         }
 
         /**
@@ -272,7 +326,7 @@ public class MenuTracker {
          * @return Описание пункта меню.
          */
         public String info() {
-            return String.format("%s. %s", this.key(), "Find item by name.");
+            return String.format("%s. %s", this.getKey(), this.getName());
         }
     }
 }
