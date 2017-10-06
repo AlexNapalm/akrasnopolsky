@@ -30,6 +30,11 @@ public class CoffeeMachine {
     private int position = 0;
 
     /**
+     * Массив номиналов монет, доступных для использования.
+     */
+    private final int[] typesOfCoins = {COIN_TEN_RUB, COIN_FIVE_RUB, COIN_TWO_RUB, COIN_ONE_RUB};
+
+    /**
      * Реализация выдачи сдачи.
      * @param price цена товара.
      * @param pay плата, внесенная покупателем.
@@ -37,21 +42,11 @@ public class CoffeeMachine {
      */
     public int[] giveChange(int price, int pay) {
         int change = pay - price; // разница между платой и ценой => сдача
-        while (change >= COIN_TEN_RUB) {
-            changeCoins[position++] = COIN_TEN_RUB;
-            change -= COIN_TEN_RUB;
-        }
-        while (change >= COIN_FIVE_RUB) {
-            changeCoins[position++] = COIN_FIVE_RUB;
-            change -= COIN_FIVE_RUB;
-        }
-        while (change >= COIN_TWO_RUB) {
-            changeCoins[position++] = COIN_TWO_RUB;
-            change -= COIN_TWO_RUB;
-        }
-        while (change >= COIN_ONE_RUB) {
-            changeCoins[position++] = COIN_ONE_RUB;
-            change -= COIN_ONE_RUB;
+        for (int i = 0; i < typesOfCoins.length; i++) {
+            while (change >= typesOfCoins[i]) {
+                changeCoins[position++] = typesOfCoins[i];
+                change -= typesOfCoins[i];
+            }
         }
         int[] result = new int[position];
         System.arraycopy(changeCoins, 0, result, 0, position);
