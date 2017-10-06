@@ -32,7 +32,7 @@ public class CoffeeMachine {
     /**
      * Массив номиналов монет, доступных для использования.
      */
-    private final int[] typesOfCoins = {COIN_TEN_RUB, COIN_FIVE_RUB, COIN_TWO_RUB, COIN_ONE_RUB};
+    private static final int[] typesOfCoins = {COIN_TEN_RUB, COIN_FIVE_RUB, COIN_TWO_RUB, COIN_ONE_RUB};
 
     /**
      * Реализация выдачи сдачи.
