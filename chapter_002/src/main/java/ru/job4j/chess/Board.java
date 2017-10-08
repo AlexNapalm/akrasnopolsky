@@ -1,50 +1,111 @@
 package ru.job4j.chess;
 
+/**
+ * Класс описывает шахматную доску.
+ */
 public class Board {
-    private Figure[][] board = new Figure[8][8];
+    /**
+     * Массив фигур на доске.
+     */
+    private Figure[] figures = new Figure[32];
 
+    /**
+     * Счетчик фигур.
+     */
     private int count = 0;
 
-    private Figure[] figures = new Figure[16];
+    /**
+     * Массив клеток, из которых состоит доска.
+     */
+    private Cell[][] cells = new Cell[8][8];
 
-    public void figureTouch(Figure figure) {
-        if (count < 16) {
-            figures[count++] = figure;
-        }
+    /**
+     * Конструктор.
+     */
+    public Board() {
+        this.initBoard();
     }
 
-    public Figure[] getFigures() {
-        return figures;
-    }
-
-    public Figure[][] getBoard() {
-        return board;
-    }
-
-    public void figureSetInBoard() {
-        for (int i = 0; i < figures.length; i++) {
-            if (figures[i] != null) {
-                //board[figures[i].getPosition().getHorizontal()][figures[i].getPosition().getVertical()] = figures[i];
-            } else {
-                break;
+    /**
+     * Инициализация доски.
+     */
+    public void initBoard() {
+        for (int i = 0; i < this.cells.length; i++) {
+            for (int j = 0; j < this.cells.length; j++) {
+                this.cells[i][j] = new Cell(i, j);
             }
         }
     }
 
-    public boolean move(Cell source, Cell dist) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
-        boolean move = false;
-        if (board[source.getVertical()][source.getHorizontal()] != null) {
-            Figure figure = board[source.getHorizontal()][source.getVertical()];
-            Cell[] cellsGo = figure.way(dist);
-            for (Cell next : cellsGo) {
-                if (board[next.getHorizontal()][next.getVertical()] == null) {
-                    move = true;
-                } else {
-                    throw new OccupiedWayException("На данном пути стоит фигура");
+    /**
+     * Добавление фигуры на доску.
+     * @param figure фигура.
+     */
+    public void addFigure(Figure figure) {
+        this.figures[count++] = figure;
+    }
+
+    /**
+     * Метод возвращает объект Cell с заданными координатами.
+     * @param horizontal координата.
+     * @param vertical координата.
+     * @return ячейка.
+     */
+    public Cell findCell(int horizontal, int vertical) {
+        Cell result = null;
+        for (int i = 0; i < this.cells.length; i++) {
+            for (int j = 0; j < this.cells[0].length; j++) {
+                if (this.cells[i][j].getHorizontal() == horizontal && this.cells[i][j].getVertical() == vertical) {
+                    result = this.cells[i][j];
                 }
             }
-        } else {
-            throw new FigureNotFoundException("В данном поле нет фигуры");
+        }
+        return result;
+    }
+
+    /**
+     * Геттер массива фигур.
+     * @return массив фигур.
+     */
+    public Figure[] getFigures() {
+        return this.figures;
+    }
+
+    /**
+     * Геттер массива клеток.
+     * @return массив клеток.
+     */
+    public Cell[][] getCells() {
+        return this.cells;
+    }
+
+    /**
+     * Ход.
+     * @param source стартовая клетка.
+     * @param dist целевая клетка.
+     * @return true если ход возможен, false если нет.
+     * @throws ImpossibleMoveException когда ход некорректен.
+     * @throws OccupiedWayException когда ход через занятую клетку.
+     * @throws FigureNotFoundException когда в стартовой клетке нет фигуры.
+     */
+    boolean move(Cell source, Cell dist) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
+        boolean move = false;
+        Cell cell = findCell(source.getHorizontal(), source.getVertical());
+        if (!cell.isBusy()) {
+            throw new FigureNotFoundException("Figure not found");
+        }
+        Figure figure;
+        Cell[] cellsToGo;
+        for (int i = 0; i < this.count; i++) {
+            if (figures[i].position.equals(source)) {
+                figure = figures[i];
+                cellsToGo = figure.way(dist);
+                for (int j = 0; j < cellsToGo.length; j++) {
+                    if (cellsToGo[j].isBusy()) {
+                        throw new OccupiedWayException("The way is occupied");
+                    }
+                }
+            }
         }
         return move;
     }

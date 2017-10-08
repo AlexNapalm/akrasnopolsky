@@ -1,23 +1,19 @@
 package ru.job4j.chess;
 
+/**
+ * Исключение, когда производится некорректный ход фигуры.
+ */
 public class ImpossibleMoveException extends RuntimeException {
 
+    /**
+     * Конструктор.
+     * @param msg сообщение об ошибке.
+     */
     public ImpossibleMoveException(String msg) {
         super(msg);
     }
 }
 
-class OccupiedWayException extends RuntimeException {
 
-    public OccupiedWayException(String msg) {
-        super(msg);
-    }
-}
 
-class FigureNotFoundException extends RuntimeException {
-
-    public FigureNotFoundException(String msg) {
-        super(msg);
-    }
-}
 
