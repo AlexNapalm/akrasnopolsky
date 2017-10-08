@@ -7,7 +7,7 @@ public class Bishop extends Figure {
     /**
      * Цвет фигуры.
      */
-    String color;
+    private String color;
 
     /**
      * Конструктор.
@@ -18,6 +18,14 @@ public class Bishop extends Figure {
     public Bishop(String color, Board board, Cell position) {
         super(board, position);
         this.color = color;
+    }
+
+    /**
+     * Геттер для цвета фигуры.
+     * @return цвет.
+     */
+    public String getColor() {
+        return color;
     }
 
     /**

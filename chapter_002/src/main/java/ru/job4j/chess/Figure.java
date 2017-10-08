@@ -10,12 +10,13 @@ public abstract class Figure {
     Cell position;
 
     /**
-     * Доска, на которой находится фигура
+     * Доска, на которой находится фигура.
      */
     Board board;
 
     /**
      * Конструктор.
+     * @param board доска, на которой фигура.
      * @param position начальная позиция фигуры.
      */
     public Figure(Board board, Cell position) {
@@ -32,6 +33,10 @@ public abstract class Figure {
      */
     public abstract Cell[] way(Cell dist) throws ImpossibleMoveException;
 
+    /**
+     * Итоговое перемещение фигуры.
+     * @param dist целевая клетка.
+     */
     public void clone(Cell dist) {
         this.position.setBusy(false);
         this.position = dist;

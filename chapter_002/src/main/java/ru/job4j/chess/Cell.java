@@ -81,4 +81,15 @@ public class Cell {
         }
         return horizontal == cell.horizontal;
     }
+
+    /**
+     * Хэшкод.
+     * @return хэшкод.
+     */
+    @Override
+    public int hashCode() {
+        int result = vertical;
+        result = 31 * result + horizontal;
+        return result;
+    }
 }

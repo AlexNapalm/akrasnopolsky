@@ -105,6 +105,7 @@ public class Board {
                         throw new OccupiedWayException("The way is occupied");
                     }
                 }
+                figure.clone(dist);
             }
         }
         return move;

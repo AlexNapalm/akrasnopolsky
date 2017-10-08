@@ -5,9 +5,12 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Класс для тестирования методов класса Board.
+ */
 public class BoardTest {
     /**
-     * Тест метода findCell
+     * Тест метода findCell.
      */
     @Test
     public void whenFindCellThenGetCell() {
