@@ -34,6 +34,15 @@ public abstract class Figure {
     public abstract Cell[] way(Cell dist) throws ImpossibleMoveException;
 
     /**
+     * Вычисление массива клеток, которые предстоит пройти.
+     * @param source начальная клетка.
+     * @param dist целевая клетка.
+     * @param cells массив клеток.
+     * @return заполненный массив клеток.
+     */
+    public abstract Cell[] validate(Cell source, Cell dist, Cell[] cells);
+
+    /**
      * Итоговое перемещение фигуры.
      * @param dist целевая клетка.
      */

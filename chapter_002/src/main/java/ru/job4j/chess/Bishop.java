@@ -37,21 +37,35 @@ public class Bishop extends Figure {
     @Override
     public Cell[] way(Cell dist) throws ImpossibleMoveException {
         Cell source = this.position;
-        Cell[] result = new Cell[Math.abs(dist.getVertical() - source.getVertical())];
+        Cell[] wayCells = new Cell[Math.abs(dist.getVertical() - source.getVertical())];
         if (Math.abs(dist.getVertical() - source.getVertical()) != Math.abs(dist.getHorizontal() - source.getHorizontal())
                 || dist.equals(source)) {
             throw new ImpossibleMoveException("Figure can't move there");
         } else {
-            for (int i = 0; i < result.length; i++) {
-                if (dist.getVertical() - source.getVertical() > 0 && dist.getHorizontal() - source.getHorizontal() > 0) {
-                    result[i] = this.board.findCell(source.getHorizontal() + 1 + i, source.getVertical() + 1 + i);
-                } else if (dist.getVertical() - source.getVertical() > 0 && dist.getHorizontal() - source.getHorizontal() < 0) {
-                    result[i] = this.board.findCell(source.getHorizontal() - 1 - i, source.getVertical() + 1 + i);
-                } else if (dist.getVertical() - source.getVertical() < 0 && dist.getHorizontal() - source.getHorizontal() > 0) {
-                    result[i] = this.board.findCell(source.getHorizontal() + 1 + i, source.getVertical() - 1 - i);
-                } else if (dist.getVertical() - source.getVertical() < 0 && dist.getHorizontal() - source.getHorizontal() < 0) {
-                    result[i] = this.board.findCell(source.getHorizontal() - 1 - i, source.getVertical() - 1 - i);
-                }
+            wayCells = validate(source, dist, wayCells);
+        }
+        return wayCells;
+    }
+
+    /**
+     * Вычисление массива клеток, которые предстоит пройти.
+     * @param source начальная клетка.
+     * @param dist целевая клетка.
+     * @param cells массив клеток.
+     * @return заполненный массив клеток.
+     */
+    @Override
+    public Cell[] validate(Cell source, Cell dist, Cell[] cells) {
+        Cell[] result = cells;
+        for (int i = 0; i < result.length; i++) {
+            if (dist.getVertical() - source.getVertical() > 0 && dist.getHorizontal() - source.getHorizontal() > 0) {
+                result[i] = this.board.findCell(source.getHorizontal() + 1 + i, source.getVertical() + 1 + i);
+            } else if (dist.getVertical() - source.getVertical() > 0 && dist.getHorizontal() - source.getHorizontal() < 0) {
+                result[i] = this.board.findCell(source.getHorizontal() - 1 - i, source.getVertical() + 1 + i);
+            } else if (dist.getVertical() - source.getVertical() < 0 && dist.getHorizontal() - source.getHorizontal() > 0) {
+                result[i] = this.board.findCell(source.getHorizontal() + 1 + i, source.getVertical() - 1 - i);
+            } else if (dist.getVertical() - source.getVertical() < 0 && dist.getHorizontal() - source.getHorizontal() < 0) {
+                result[i] = this.board.findCell(source.getHorizontal() - 1 - i, source.getVertical() - 1 - i);
             }
         }
         return result;
