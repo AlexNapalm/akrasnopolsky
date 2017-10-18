@@ -1,6 +1,13 @@
 package ru.job4j.collections;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
+import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.TreeSet;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Класс для измерения времени добавления и удаления элементов из коллекций.
