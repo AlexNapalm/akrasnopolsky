@@ -29,18 +29,25 @@ public class ConvertList {
      * @return двухмерный массив, полученный из списка.
      */
     public int[][] toArray(List<Integer> list, int rows) {
+        List<Integer> listWithoutNulls = new ArrayList<>();
+        for (Integer element : list) {
+            if (element != null) {
+                listWithoutNulls.add(element);
+            }
+        }
+
         int columns;
-        if (list.size() % rows == 0) {
-            columns = list.size() / rows;
+        if (listWithoutNulls.size() % rows == 0) {
+            columns = listWithoutNulls.size() / rows;
         } else {
-            columns = list.size() / rows + 1;
+            columns = listWithoutNulls.size() / rows + 1;
         }
         int[][] result = new int[rows][columns];
         int count = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                if (list.size() > count) {
-                    result[i][j] = list.get(count++);
+                if (listWithoutNulls.size() > count) {
+                    result[i][j] = listWithoutNulls.get(count++);
                 }
             }
         }

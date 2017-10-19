@@ -55,4 +55,21 @@ public class ConvertListTest {
         assertThat(result, is(expected));
     }
 
+    /**
+     * Тест метода toArray.
+     */
+    @Test
+    public void whenListHasNullConvertToArray() {
+        List<Integer> testList = new ArrayList<>();
+        testList.add(1);
+        testList.add(2);
+        testList.add(null);
+        testList.add(4);
+        testList.add(5);
+        int[][] expected = {{1, 2},
+                            {4, 5}};
+        ConvertList cl = new ConvertList();
+        int[][] result = cl.toArray(testList, 2);
+        assertThat(result, is(expected));
+    }
 }
