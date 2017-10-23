@@ -53,4 +53,19 @@ public class ConvertList {
         }
         return result;
     }
+
+    /**
+     * Конвертация списка массивов в список элементов этих массивов.
+     * @param list список, содержащий массивы целых чисел.
+     * @return список целых чисел.
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> result = new ArrayList<>();
+        for (int[] array : list) {
+            for (int i : array) {
+                result.add(i);
+            }
+        }
+        return result;
+    }
 }

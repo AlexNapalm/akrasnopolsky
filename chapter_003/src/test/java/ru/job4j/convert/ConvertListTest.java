@@ -72,4 +72,24 @@ public class ConvertListTest {
         int[][] result = cl.toArray(testList, 2);
         assertThat(result, is(expected));
     }
+
+    /**
+     * Тест метода convert.
+     */
+    @Test
+    public void whenListOfArraysConvertToListOfIntegers() {
+        List<int[]> listOfArrays = new ArrayList<>();
+        listOfArrays.add(new int[]{1, 2});
+        listOfArrays.add(new int[]{3, 4, 5, 6});
+        ConvertList cl = new ConvertList();
+        List<Integer> result = cl.convert(listOfArrays);
+        List<Integer> expected = new ArrayList<>();
+        expected.add(1);
+        expected.add(2);
+        expected.add(3);
+        expected.add(4);
+        expected.add(5);
+        expected.add(6);
+        assertThat(result, is(expected));
+    }
 }
