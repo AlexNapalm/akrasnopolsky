@@ -1,6 +1,7 @@
 /**
- * Package for convert arrayList to array test classes.
+ * Package for convert list test classes.
  * Конвертация двумерного массива в ArrayList и наоборот [#10035]
+ * Написать программу преобразования List в Map. [#10093]
  *
  * @author Alexey Krasnopolsky (mailto:aak91@mail.ru)
  * @version $Id$
