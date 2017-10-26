@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -21,10 +22,10 @@ public class ConsoleInput implements Input {
     /**
      * Метод для ввода строки с клавиатуры.
      * @param question вопрос, на который пользователь должен ввести ответ
-     * @param range массив допустим значений, которые допускаются к вводу.
+     * @param range лист допустим значений, которые допускаются к вводу.
      * @return объект scanner для ввода с клавиатуры.
      */
-    public int ask(String question, int[] range) {
+    public int ask(String question, List<Integer> range) {
         int key = Integer.valueOf(this.ask(question));
         boolean exist = false;
         for (int value : range) {

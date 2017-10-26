@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Класс, описывающий редактирование заявки.
  */
@@ -59,14 +62,9 @@ public class MenuTracker {
     private Tracker tracker;
 
     /**
-     * Массив возможных действий для пользователя.
+     * Лист возможных действий для пользователя.
      */
-    private UserAction[] actions = new UserAction[6];
-
-    /**
-     * Порядковый номер пункта меню в массиве.
-     */
-    private int position = 0;
+    private List<UserAction> actions = new ArrayList<>(6);
 
     /**
      * Основной конструктор.
@@ -79,33 +77,25 @@ public class MenuTracker {
     }
 
     /**
-     * Заполнение массива возможными действиями.
+     * Заполнение листа возможными действиями.
      */
     public void fillActions() {
-        this.actions[position++] = new AddItem();
-        this.actions[position++] = new ShowItems();
-        this.actions[position++] = new EditItem();
-        this.actions[position++] = new DeleteItem();
-        this.actions[position++] = new FindItemById();
-        this.actions[position++] = new FindItemByName();
-    }
-
-    /**
-     * Добавление нового действия в массив действий.
-     * @param action действие.
-     */
-    public void addAction(UserAction action) {
-        this.actions[position++] = action;
+        actions.add(new AddItem());
+        actions.add(new ShowItems());
+        actions.add(new EditItem());
+        actions.add(new DeleteItem());
+        actions.add(new FindItemById());
+        actions.add(new FindItemByName());
     }
 
     /**
      * Геттер для получения диапазона, допустимого к выбору.
-     * @return массив, ширина которого равна допустимому диапазону для выбора.
+     * @return лист, ширина которого равна допустимому диапазону для выбора.
      */
-    public int[] getRange() {
-        int[] range = new int[this.actions.length];
-        for (int i = 0; i < this.actions.length; i++) {
-            range[i] = i;
+    public List<Integer> getRange() {
+        List<Integer> range = new ArrayList<>(this.actions.size());
+        for (int i = 0; i < 6; i++) {
+            range.add(i);
         }
         return range;
     }
@@ -115,7 +105,7 @@ public class MenuTracker {
      * @param key номер пункта меню.
      */
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     /**

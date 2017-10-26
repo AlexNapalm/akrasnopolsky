@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 /**
  * Класс, реализующий проверку корректности введенных пользователем данных.
  */
@@ -8,10 +10,10 @@ public class ValidateInput extends ConsoleInput {
     /**
      * Метод для ввода данных с клавиатуры.
      * @param question вопрос, на который пользователь должен ввести ответ
-     * @param range массив допустим значений, которые допускаются к вводу.
+     * @param range лист допустим значений, которые допускаются к вводу.
      * @return Значение, введенное пользователем, либо исключения, сообщающие о неверности ввода.
      */
-    public int ask(String question, int[] range) {
+    public int ask(String question, List<Integer> range) {
         int value = 0;
         boolean invalid = true;
         do {

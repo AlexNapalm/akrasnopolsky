@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -7,9 +9,9 @@ import java.util.Random;
  */
 public class Tracker {
     /**
-     * Массив заявок.
+     * Лист заявок.
      */
-    private Item[] items = new Item[100];
+    private List<Item> items = new ArrayList<>();
     /**
      * Счетчик добавленных заявок.
      */
@@ -26,7 +28,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         item.setId(this.generateId());
-        this.items[this.position++] = item;
+        this.items.add(this.position++, item);
         return item;
     }
 
@@ -35,9 +37,9 @@ public class Tracker {
      * @param item заявка.
      */
     public void update(Item item) {
-        for (int i = 0; i < this.items.length; i++) {
-            if (this.items[i] != null && this.items[i].getId().equals(item.getId())) {
-                this.items[i] = item;
+        for (Item element : this.items) {
+            if (element.getId().equals(item.getId())) {
+                this.items.set(this.items.indexOf(element), item);
                 break;
             }
         }
@@ -48,9 +50,9 @@ public class Tracker {
      * @param item заявка.
      */
     public void delete(Item item) {
-        for (int i = 0; i < this.items.length; i++) {
-           if (this.items[i].getId().equals(item.getId())) {
-               System.arraycopy(this.items, i + 1, this.items, i, this.items.length - i - 1);
+        for (Item element : this.items) {
+           if (element.getId().equals(item.getId())) {
+               items.remove(element);
                this.position--;
                break;
            }
@@ -59,37 +61,25 @@ public class Tracker {
 
     /**
      * получение списка всех заявок.
-     * @return массив заявок без null-элементов.
+     * @return лист заявок без null-элементов.
      */
-    public Item[] findAll() {
-        Item[] result = new Item[this.position];
-        for (int i = 0; i < this.items.length; i++) {
-            if (this.items[i] != null) {
-                result[i] = this.items[i];
-            }
-        }
+    public List<Item> findAll() {
+        List<Item> result = new ArrayList<>();
+        result = this.items;
+
         return result;
     }
 
     /**
      * получение списка по имени.
      * @param key имя для поиска.
-     * @return массив заявок, имеющих данное имя без null-элементов.
+     * @return лист заявок, имеющих данное имя без null-элементов.
      */
-    public Item[] findByName(String key) {
-        int countItems = 0;
+    public List<Item> findByName(String key) {
+        List<Item> result = new ArrayList<>();
         for (Item item : this.items) {
-            if (item != null && item.getName().equals(key)) {
-                countItems++;
-            }
-        }
-
-        Item[] result = new Item[countItems];
-        int arrayCount = 0;
-        for (Item item : this.items) {
-            if (item != null && item.getName().equals(key)) {
-                result[arrayCount] = item;
-                arrayCount++;
+            if(item.getName().equals(key)) {
+                result.add(item);
             }
         }
         return result;

@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 /**
  * Класс, эмулирующий действия пользователя.
  */
@@ -36,7 +38,7 @@ public class StubInput implements Input {
      * @param range массив допустим значений, которые допускаются к вводу.
      * @return ответ пользователя.
      */
-    public int ask(String question, int[] range) {
+    public int ask(String question, List<Integer> range) {
         //throw new UnsupportedOperationException("Unsupported operation");
         return 0;
     }
