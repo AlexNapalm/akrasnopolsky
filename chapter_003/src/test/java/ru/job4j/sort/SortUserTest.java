@@ -27,13 +27,7 @@ public class SortUserTest {
         );
         SortUser su = new SortUser();
         Set<User> result = su.sort(list);
-
-        Set<User> expected = new TreeSet<>();
-        expected.add(new User("Dime", 21));
-        expected.add(new User("John", 23));
-        expected.add(new User("Alex", 26));
-        expected.add(new User("Ian", 30));
-
+        Set<User> expected = new TreeSet<>(list);
         assertThat(result, is(expected));
     }
 }
