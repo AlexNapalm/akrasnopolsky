@@ -22,7 +22,8 @@ public class SortUserTest {
                         new User("Alex", 26),
                         new User("John", 23),
                         new User("Ian", 30),
-                        new User("Dime", 21)
+                        new User("Dime", 21),
+                        new User("Diamond", 21)
                 )
         );
         SortUser su = new SortUser();

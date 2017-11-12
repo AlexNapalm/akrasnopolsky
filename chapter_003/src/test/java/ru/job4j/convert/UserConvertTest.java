@@ -2,6 +2,7 @@ package ru.job4j.convert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
 
@@ -18,6 +19,7 @@ public class UserConvertTest {
     @Test
     public void whenListOfUsersConvertToHashMap() {
         List<User> testList = new ArrayList<>();
+        List<User> testList1 = new LinkedList<>();
         User user1 = new User(1, "Alex", "Moscow");
         User user2 = new User(2, "John", "Ottawa");
         User user3 = new User(3, "Peter", "London");
