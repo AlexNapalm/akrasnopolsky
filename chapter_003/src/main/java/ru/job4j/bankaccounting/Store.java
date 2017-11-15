@@ -9,27 +9,26 @@ public class Store {
     /**
      * Hashmap with User as a key and list of accounts as a mapping.
      */
-    private Map<User, List<Account>> clientsDataBase;
+    private Map<User, List<Account>> clients;
     /**
      * Constructs new store and creates new hashmap.
      */
     public Store() {
-        clientsDataBase = new HashMap<>();
+        clients = new HashMap<>();
     }
     /**
      * Adding user to db.
      * @param user user.
      */
     public void addUser(User user) {
-        clientsDataBase.put(user, user.getUserAccounts());
+        clients.put(user, new ArrayList<>());
     }
-
     /**
      * Deleting user from db.
      * @param user user.
      */
     public void deleteUser(User user) {
-        clientsDataBase.remove(user);
+        clients.remove(user);
     }
     /**
      * Adds account to user.
@@ -37,9 +36,9 @@ public class Store {
      * @param account account.
      */
     public void addAccountToUser(User user, Account account) {
-        List<Account> result = user.getUserAccounts();
+        List<Account> result = clients.get(user);
         result.add(account);
-        user.setUserAccounts(result);
+        clients.put(user, result);
     }
     /**
      * Deletes account from user.
@@ -47,9 +46,9 @@ public class Store {
      * @param account account.
      */
     public void deleteAccountFromUser(User user, Account account) {
-        List<Account> result = user.getUserAccounts();
+        List<Account> result = clients.get(user);
         result.remove(account);
-        user.setUserAccounts(result);
+        clients.put(user, result);
     }
     /**
      * User accounts getter.
@@ -57,14 +56,14 @@ public class Store {
      * @return
      */
     public List<Account> getUserAccounts(User user) {
-        return user.getUserAccounts();
+        return clients.get(user);
     }
     /**
      * Clients db getter.
      * @return map with users and accounts.
      */
-    public Map<User, List<Account>> getClientsDataBase() {
-        return clientsDataBase;
+    public Map<User, List<Account>> getClients() {
+        return clients;
     }
     /**
      * Finds user by name.
@@ -73,7 +72,7 @@ public class Store {
      */
     public User findUserByName(String key) {
         User result = null;
-        for (User user : clientsDataBase.keySet()) {
+        for (User user : clients.keySet()) {
             if (key.equals(user.getName())) {
                 result = user;
             }
@@ -87,7 +86,7 @@ public class Store {
      */
     public User findUserByPassport(int key) {
         User result = null;
-        for (User user : clientsDataBase.keySet()) {
+        for (User user : clients.keySet()) {
             if (key == user.getPassport()) {
                 result = user;
                 break;
@@ -102,7 +101,7 @@ public class Store {
      * @return account.
      */
     public Account findAccountByRequisites(User user, int key) {
-        List<Account> accountsList = user.getUserAccounts();
+        List<Account> accountsList = clients.get(user);
         Account result = null;
         for (Account account : accountsList) {
             if (key == account.getRequisites()) {

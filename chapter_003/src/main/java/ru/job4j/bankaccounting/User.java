@@ -14,10 +14,6 @@ public class User {
      */
     private int passport;
     /**
-     * User accounts.
-     */
-    private List<Account> userAccounts;
-    /**
      * Constructs user and adds empty list of accounts.
      * @param name name.
      * @param passport passport.
@@ -25,7 +21,6 @@ public class User {
     public User(String name, int passport) {
         this.name = name;
         this.passport = passport;
-        this.userAccounts = new ArrayList<>();
     }
     /**
      * Name getter.
@@ -54,20 +49,6 @@ public class User {
      */
     public void setPassport(int passport) {
         this.passport = passport;
-    }
-    /**
-     * User accounts getter.
-     * @return list of user accounts.
-     */
-    public List<Account> getUserAccounts() {
-        return this.userAccounts;
-    }
-    /**
-     * Sets list of user accounts.
-     * @param userAccounts list of user accounts.
-     */
-    public void setUserAccounts(List<Account> userAccounts) {
-        this.userAccounts = userAccounts;
     }
 
     @Override

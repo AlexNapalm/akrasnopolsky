@@ -17,8 +17,8 @@ public class StoreTest {
         User user = new User("Alex", 12345);
         store.addUser(user);
         Map<User, List<Account>> expected = new HashMap<>();
-        expected.put(user, user.getUserAccounts());
-        Map<User, List<Account>> result = store.getClientsDataBase();
+        expected.put(user, new ArrayList<>());
+        Map<User, List<Account>> result = store.getClients();
         assertThat(result, is(expected));
     }
     /**
@@ -33,8 +33,8 @@ public class StoreTest {
         store.addUser(user2);
         store.deleteUser(user);
         Map<User, List<Account>> expected = new HashMap<>();
-        expected.put(user2, user.getUserAccounts());
-        Map<User, List<Account>> result = store.getClientsDataBase();
+        expected.put(user2, new ArrayList<>());
+        Map<User, List<Account>> result = store.getClients();
         assertThat(result, is(expected));
     }
     /**
