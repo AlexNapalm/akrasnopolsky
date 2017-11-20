@@ -121,13 +121,15 @@ public class Store {
      * @return true, if success , and false if failure to transfer.
      */
     public boolean transferMoney(User srcUser, Account srcAccount, User dstUser, Account dstAccount, double amount) {
-        if (findAccountByRequisites(srcUser, srcAccount.getRequisites()).getValue() < amount) {
+        Account source = findAccountByRequisites(srcUser, srcAccount.getRequisites());
+        if (source.getValue() < amount) {
             return false;
         }
-        double newSrcValue = findAccountByRequisites(srcUser, srcAccount.getRequisites()).getValue() - amount;
-        findAccountByRequisites(srcUser, srcAccount.getRequisites()).setValue(newSrcValue);
-        double newDstValue = findAccountByRequisites(dstUser, dstAccount.getRequisites()).getValue() + amount;
-        findAccountByRequisites(dstUser, dstAccount.getRequisites()).setValue(newDstValue);
+        Account target = findAccountByRequisites(dstUser, dstAccount.getRequisites());
+        double newSrcValue = source.getValue() - amount;
+        source.setValue(newSrcValue);
+        double newDstValue = target.getValue() + amount;
+        target.setValue(newDstValue);
         return true;
     }
 }
