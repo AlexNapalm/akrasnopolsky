@@ -10,21 +10,6 @@ import static org.hamcrest.core.Is.is;
  */
 public class TriangleTest {
     /**
-     * Тест метода validate(), когда по заданным точкам невозможно построить треугольник.
-     */
-    @Test
-    public void whenGivenPointsImpossibleConstructTriangle() {
-        Point a = new Point(0, 1);
-        Point b = new Point(0, 2);
-        Point c = new Point(2, 0);
-
-        Triangle triangle = new Triangle(a, b, c);
-
-        boolean actual = triangle.validate();
-        assertThat(actual, is(false));
-    }
-
-    /**
      * Тест метода validate(), когда по заданным точкам возможно построить треугольник.
      */
     @Test

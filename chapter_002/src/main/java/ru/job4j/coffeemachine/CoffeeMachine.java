@@ -32,7 +32,7 @@ public class CoffeeMachine {
     /**
      * Массив номиналов монет, доступных для использования.
      */
-    private static final int[] typesOfCoins = {COIN_TEN_RUB, COIN_FIVE_RUB, COIN_TWO_RUB, COIN_ONE_RUB};
+    private static final int[] TYPES_OF_COINS = {COIN_TEN_RUB, COIN_FIVE_RUB, COIN_TWO_RUB, COIN_ONE_RUB};
 
     /**
      * Реализация выдачи сдачи.
@@ -42,10 +42,10 @@ public class CoffeeMachine {
      */
     public int[] giveChange(int price, int pay) {
         int change = pay - price; // разница между платой и ценой => сдача
-        for (int i = 0; i < typesOfCoins.length; i++) {
-            while (change >= typesOfCoins[i]) {
-                changeCoins[position++] = typesOfCoins[i];
-                change -= typesOfCoins[i];
+        for (int i = 0; i < TYPES_OF_COINS.length; i++) {
+            while (change >= TYPES_OF_COINS[i]) {
+                changeCoins[position++] = TYPES_OF_COINS[i];
+                change -= TYPES_OF_COINS[i];
             }
         }
         int[] result = new int[position];

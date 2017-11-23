@@ -106,6 +106,7 @@ public class Board {
                     }
                 }
                 figure.clone(dist);
+                move = true;
             }
         }
         return move;
