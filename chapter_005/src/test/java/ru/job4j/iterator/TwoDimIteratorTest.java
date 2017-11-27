@@ -2,6 +2,8 @@ package ru.job4j.iterator;
 
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -44,7 +46,7 @@ public class TwoDimIteratorTest {
     /**
      * next and hasNext test.
      */
-    @Test
+    @Test (expected = NoSuchElementException.class)
     public void whenGetNextCallShouldPointerForward() {
         TwoDimIterator tdi = new TwoDimIterator(new int[][]{
                 {1, 2, 3},
@@ -64,12 +66,13 @@ public class TwoDimIteratorTest {
         assertThat(tdi.hasNext(), is(true));
         assertThat(tdi.next(), is(6));
         assertThat(tdi.hasNext(), is(false));
+        tdi.next();
     }
 
     /**
      * next and hasNext test.
      */
-    @Test
+    @Test (expected = NoSuchElementException.class)
     public void whenGetNextCallInMergedArrayShouldPointerForward() {
         TwoDimIterator tdi = new TwoDimIterator(new int[][]{
                 {1, 2, 3},
@@ -101,5 +104,6 @@ public class TwoDimIteratorTest {
         assertThat(tdi.hasNext(), is(true));
         assertThat(tdi.next(), is(11));
         assertThat(tdi.hasNext(), is(false));
+        tdi.next();
     }
 }

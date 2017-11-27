@@ -1,6 +1,7 @@
 package ru.job4j.iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Iterator for 2-dimensions array.
@@ -53,16 +54,20 @@ public class TwoDimIterator implements Iterator {
     }
 
     /**
-     * Returns currents element and moves pointer one step forward.
+     * Returns current element and moves pointer one step forward.
      * @return current element.
      */
     @Override
     public Object next() {
+        if (count == this.getElements()) {
+            throw new NoSuchElementException();
+        } else {
+            count++;
+        }
         if (col == this.values[row].length) {
             row++;
             col = 0;
         }
-        count++;
         return this.values[row][col++];
     }
 }
