@@ -52,11 +52,12 @@ public class EvenIterator implements Iterator {
                     break;
                 }
             }
+        } else if (result % 2 == 0) {
+            position++;
+            return result;
         } else {
             throw new NoSuchElementException();
         }
-
-
         return result;
     }
 }
