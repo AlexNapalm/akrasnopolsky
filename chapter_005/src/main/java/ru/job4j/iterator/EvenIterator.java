@@ -11,33 +11,14 @@ public class EvenIterator implements Iterator {
     /**
      * Count for index.
      */
-    private int position;
-
+    private int position = 0;
     /**
      * Constructs iterator.
      * @param values array.
      */
     public EvenIterator(int[] values) {
         this.values = values;
-        this.position = calculatePosition(values);
     }
-
-    /**
-     * Calculates the first even element index.
-     * @param values array.
-     * @return index.
-     */
-    public int calculatePosition(int[] values) {
-        int result = 0;
-        for (int i = 0; i < values.length; i++) {
-            if (values[i] % 2 == 0) {
-                result = i;
-                break;
-            }
-        }
-        return result;
-    }
-
     /**
      * Overriden hasNext.
      * @return true if array has even elements.
@@ -53,7 +34,6 @@ public class EvenIterator implements Iterator {
         }
         return result;
     }
-
     /**
      * Returns current element and moves pointer forward.
      * @return current element.
@@ -63,19 +43,20 @@ public class EvenIterator implements Iterator {
         if (this.position >= this.values.length) {
             throw new NoSuchElementException();
         }
-        int result = this.values[position++];
-
-        if (result % 2 != 0) {
+        int result = this.values[position];
+        if (result % 2 != 0 && hasNext()) {
             for (int i = position; i < this.values.length; i++) {
                 if (this.values[i] % 2 == 0) {
                     result = this.values[i];
-                    position++;
+                    position = ++i;
                     break;
-                } else {
-                    throw new NoSuchElementException();
                 }
             }
+        } else {
+            throw new NoSuchElementException();
         }
+
+
         return result;
     }
 }
