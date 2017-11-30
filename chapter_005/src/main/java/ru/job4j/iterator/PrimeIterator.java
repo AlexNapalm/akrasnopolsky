@@ -46,10 +46,18 @@ public class PrimeIterator implements Iterator {
     @Override
     public boolean hasNext() {
         boolean result = false;
-        for (int i = position; i < this.values.length; i++) {
-            if (isPrime(this.values[i])) {
-                result = true;
-                break;
+        if (position >= this.values.length) {
+            return false;
+        }
+        if (isPrime(this.values[position])) {
+            result = true;
+        } else {
+            for (int i = position; i < this.values.length; i++) {
+                if (isPrime(this.values[i])) {
+                    result = true;
+                    position = i;
+                    break;
+                }
             }
         }
         return result;
@@ -61,24 +69,10 @@ public class PrimeIterator implements Iterator {
      */
     @Override
     public Object next() {
-        if (this.position >= this.values.length) {
-            throw new NoSuchElementException();
-        }
-        int result = this.values[position];
-        if (!isPrime(result) && hasNext()) {
-            for (int i = position; i < this.values.length; i++) {
-                if (isPrime(this.values[i])) {
-                    result = this.values[i];
-                    position = ++i;
-                    break;
-                }
-            }
-        } else if (isPrime(result)) {
-            position++;
-            return result;
+        if (hasNext()) {
+            return this.values[position++];
         } else {
             throw new NoSuchElementException();
         }
-        return result;
     }
 }
