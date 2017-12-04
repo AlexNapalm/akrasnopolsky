@@ -2,6 +2,7 @@ package ru.job4j.iterator;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class ConverterTest {
         it = converter.convert(its);
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void hasNextNextSequentialInvocation() {
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(1));
@@ -43,10 +44,11 @@ public class ConverterTest {
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(9));
         assertThat(it.hasNext(), is(false));
+        it.next();
 
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void testsThatNextMethodDoesntDependsOnPriorHasNextInvocation() {
         assertThat(it.next(), is(1));
         assertThat(it.next(), is(2));
@@ -57,9 +59,10 @@ public class ConverterTest {
         assertThat(it.next(), is(7));
         assertThat(it.next(), is(8));
         assertThat(it.next(), is(9));
+        it.next();
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void sequentialHasNextInvocationDoesntAffectRetrievalOrder() {
         assertThat(it.hasNext(), is(true));
         assertThat(it.hasNext(), is(true));
@@ -72,5 +75,6 @@ public class ConverterTest {
         assertThat(it.next(), is(7));
         assertThat(it.next(), is(8));
         assertThat(it.next(), is(9));
+        it.next();
     }
 }

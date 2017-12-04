@@ -1,6 +1,7 @@
 package ru.job4j.iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Converter {
 
@@ -23,7 +24,7 @@ public class Converter {
                     }
                     return innerIterator.next();
                 } else {
-                    return null;
+                    throw new NoSuchElementException();
                 }
             }
         };
