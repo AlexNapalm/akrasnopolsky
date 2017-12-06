@@ -34,7 +34,8 @@ public class SimpleArray<T> {
      * @param position position to delete.
      */
     public void delete(int position) {
-        this.objects[position] = null;
+        System.arraycopy(this.objects, position + 1, this.objects, position, this.index - position - 1);
+        this.index--;
     }
 
     /**
@@ -44,5 +45,13 @@ public class SimpleArray<T> {
      */
     public T get(int position) {
         return (T) this.objects[position];
+    }
+
+    /**
+     * Return size of array.
+     * @return size of array.
+     */
+    public int getSize() {
+        return this.index;
     }
 }

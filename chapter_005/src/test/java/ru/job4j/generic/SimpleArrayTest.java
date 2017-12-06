@@ -39,15 +39,14 @@ public class SimpleArrayTest {
     }
 
     @Test
-    public void whenDeleteShouldReturnNull() {
+    public void whenDeleteShouldNotReturnDeletedItem() {
         SimpleArray<String> simple = new SimpleArray<>(5);
 
         simple.add("first");
         simple.add("second");
-        simple.delete(1);
-        String result = simple.get(1);
+        simple.delete(0);
 
-        assertTrue(result == null);
+        assertThat(simple.get(0), is("second"));
     }
 
     @Test
