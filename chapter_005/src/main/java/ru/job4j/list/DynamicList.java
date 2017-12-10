@@ -12,7 +12,7 @@ public class DynamicList<E> implements Iterable<E> {
     /**
      * Actual filled size of container.
      */
-    private int position = 0;
+    private int size = 0;
     /**
      * Constant for default capacity.
      */
@@ -42,10 +42,10 @@ public class DynamicList<E> implements Iterable<E> {
      * @param value element to add.
      */
     public void add(E value) {
-        if (position >= this.container.length) {
+        if (size >= this.container.length) {
             grow();
         }
-        this.container[position++] = value;
+        this.container[size++] = value;
     }
 
     /**
@@ -74,35 +74,25 @@ public class DynamicList<E> implements Iterable<E> {
         this.container = Arrays.copyOf(this.container, newCapacity);
     }
 
+
     @Override
     public Iterator<E> iterator() {
-        return new Itr(this.container);
-    }
+        return new Iterator<E>() {
+            int position = 0;
 
-    /**
-     * Implementation of iterator for DynamicList;
-     */
-    private class Itr implements Iterator<E> {
-        private Object[] values;
-        private int index = 0;
-
-        public Itr(Object[] values) {
-            this.values = values;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return index < values.length;
-        }
-
-        @Override
-        public E next() {
-            if (hasNext()) {
-                return (E) this.values[index++];
-            } else {
-                throw new NoSuchElementException();
+            @Override
+            public boolean hasNext() {
+                return position < size;
             }
 
-        }
+            @Override
+            public E next() {
+                if (hasNext()) {
+                    return (E) container[position++];
+                } else {
+                    throw new NoSuchElementException();
+                }
+            }
+        };
     }
 }
