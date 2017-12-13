@@ -49,6 +49,30 @@ public class LinkedContainer<E> implements Iterable<E> {
     }
 
     /**
+     * Removes last element from container.
+     */
+    public void removeLast() {
+        Node<E> last = lastNode.getPrevElement();
+        Node<E> newLast = last.getPrevElement();
+        last.setCurrentElement(null);
+        newLast.setNextElement(lastNode);
+        lastNode.setPrevElement(newLast);
+        size--;
+    }
+
+    /**
+     * Removes the first element from container.
+     */
+    public void removeFirst() {
+        Node<E> first = firstNode.getNextElement();
+        Node<E> newFirst = first.getNextElement();
+        first.setCurrentElement(null);
+        newFirst.setPrevElement(firstNode);
+        firstNode.setNextElement(newFirst);
+        size--;
+    }
+
+    /**
      * Return the actual size of the list.
      * @return size.
      */

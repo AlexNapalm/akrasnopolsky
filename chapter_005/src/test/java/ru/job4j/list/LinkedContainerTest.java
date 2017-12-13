@@ -90,4 +90,27 @@ public class LinkedContainerTest {
         assertThat(iterator.hasNext(), is(false));
         iterator.next();
     }
+
+    @Test
+    public void whenRemoveLastThenLastIsPrevious() {
+        lc.removeLast();
+
+        assertThat(lc.getElementByIndex(0), is("one"));
+        assertThat(lc.getElementByIndex(1), is("two"));
+        assertThat(lc.getElementByIndex(2), is("three"));
+        assertThat(lc.getElementByIndex(3), is("four"));
+        assertThat(lc.size(), is(4));
+        assertTrue(lc.getElementByIndex(4) == null);
+    }
+
+    @Test
+    public void whenRemoveFirstThenSecondBecomesFirst() {
+        lc.removeFirst();
+
+        assertThat(lc.getElementByIndex(0), is("two"));
+        assertThat(lc.getElementByIndex(1), is("three"));
+        assertThat(lc.getElementByIndex(2), is("four"));
+        assertThat(lc.getElementByIndex(3), is("five"));
+        assertThat(lc.size(), is(4));
+    }
 }
