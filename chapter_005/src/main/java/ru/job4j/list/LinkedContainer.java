@@ -105,6 +105,8 @@ public class LinkedContainer<E> implements Iterable<E> {
     public Iterator<E> iterator() {
         return new Iterator<E>() {
             int position = 0;
+            Node<E> element = firstNode.getNextElement();
+            Node<E> next = firstNode.getNextElement();
 
             @Override
             public boolean hasNext() {
@@ -114,7 +116,10 @@ public class LinkedContainer<E> implements Iterable<E> {
             @Override
             public E next() {
                 if (hasNext()) {
-                    return getElementByIndex(position++);
+                    element = next;
+                    next = next.getNextElement();
+                    position++;
+                    return element.getCurrentElement();
                 } else {
                     throw  new NoSuchElementException();
                 }
@@ -129,6 +134,8 @@ public class LinkedContainer<E> implements Iterable<E> {
     public Iterator<E> descendingIterator() {
         return new Iterator<E>() {
             int position = size - 1;
+            Node<E> element = lastNode.getPrevElement();
+            Node<E> prev = lastNode.getPrevElement();
 
             @Override
             public boolean hasNext() {
@@ -138,7 +145,10 @@ public class LinkedContainer<E> implements Iterable<E> {
             @Override
             public E next() {
                 if (hasNext()) {
-                    return getElementByIndex(position--);
+                    element = prev;
+                    prev = prev.getPrevElement();
+                    position--;
+                    return element.getCurrentElement();
                 } else {
                     throw new NoSuchElementException();
                 }
