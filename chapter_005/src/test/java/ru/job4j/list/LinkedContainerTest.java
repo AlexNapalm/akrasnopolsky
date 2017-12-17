@@ -93,25 +93,24 @@ public class LinkedContainerTest {
 
     @Test
     public void whenRemoveLastThenLastIsPrevious() {
-        lc.addFirst("testOne");
+        lc.addFirst("1");
+        lc.addFirst("2");
+        lc.addFirst("3");
+        lc.addFirst("4");
+        lc.addFirst("5");
         lc.removeLast();
-        lc.addLast("testFive");
-        lc.addLast("testSix");
-        lc.removeLast();
-        lc.addFirst("testSuperOne");
-        lc.addLast("testSeven");
 
-
-        assertThat(lc.getElementByIndex(0), is("testSuperOne"));
-        assertThat(lc.getElementByIndex(1), is("testOne"));
-        assertThat(lc.getElementByIndex(2), is("one"));
-        assertThat(lc.getElementByIndex(3), is("two"));
-        assertThat(lc.getElementByIndex(4), is("three"));
-        assertThat(lc.getElementByIndex(5), is("four"));
-        assertThat(lc.getElementByIndex(6), is("testFive"));
-        assertThat(lc.getElementByIndex(7), is("testSeven"));
-        assertThat(lc.size(), is(8));
-        assertTrue(lc.getElementByIndex(8) == null);
+        assertThat(lc.getElementByIndex(0), is("5"));
+        assertThat(lc.getElementByIndex(1), is("4"));
+        assertThat(lc.getElementByIndex(2), is("3"));
+        assertThat(lc.getElementByIndex(3), is("2"));
+        assertThat(lc.getElementByIndex(4), is("1"));
+        assertThat(lc.getElementByIndex(5), is("one"));
+        assertThat(lc.getElementByIndex(6), is("two"));
+        assertThat(lc.getElementByIndex(7), is("three"));
+        assertThat(lc.getElementByIndex(8), is("four"));
+        assertThat(lc.size(), is(9));
+        assertTrue(lc.getElementByIndex(9) == null);
     }
 
     @Test

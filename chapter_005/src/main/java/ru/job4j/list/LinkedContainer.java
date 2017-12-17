@@ -104,22 +104,19 @@ public class LinkedContainer<E> implements Iterable<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            int position = 0;
             Node<E> element = firstNode.getNextElement();
-            Node<E> next = firstNode.getNextElement();
 
             @Override
             public boolean hasNext() {
-                return position < size;
+                return element != lastNode;
             }
 
             @Override
             public E next() {
                 if (hasNext()) {
-                    element = next;
-                    next = next.getNextElement();
-                    position++;
-                    return element.getCurrentElement();
+                    E result = element.currentElement;
+                    element = element.nextElement;
+                    return result;
                 } else {
                     throw  new NoSuchElementException();
                 }
