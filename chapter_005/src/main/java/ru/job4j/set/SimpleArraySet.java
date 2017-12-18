@@ -5,22 +5,26 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class SimpleArraySet<E> implements Iterable<E> {
-    /**
-     * Array to store elements.
-     */
-    private E[] container;
-    /**
-     * Number of added elements.jy o
-     */
-    private int size = 0;
+
     /**
      * Default capacity of container.
      */
     private final static int DEFAULT_CAPACITY = 10;
+
     /**
      * Grow step.
      */
     private static final int GROW_STEP = 50;
+
+    /**
+     * Array to store elements.
+     */
+    private E[] container;
+
+    /**
+     * Number of added elements.jy o
+     */
+    private int size = 0;
 
     /**
      * Cpnstructs simple set container.
