@@ -7,11 +7,11 @@ public class LinkedContainer<E> implements Iterable<E> {
     /**
      * Start of the list.
      */
-    private Node<E> firstNode;
+    private Node<E> firstNode = new Node<E>(null, null, null);
     /**
      * End of the list.
      */
-    private Node<E> lastNode;
+    private Node<E> lastNode = new Node<E>(null, null, null);
     /**
      * Size of the container.
      */
@@ -21,8 +21,8 @@ public class LinkedContainer<E> implements Iterable<E> {
      * Constructs LinkedContainer.
      */
     public LinkedContainer() {
-        lastNode = new Node<E>(null, firstNode, null);
-        firstNode = new Node<E>(null, null, lastNode);
+        firstNode.setNextElement(lastNode);
+        lastNode.setPrevElement(firstNode);
     }
     /**
      * Adds element to the end of the list.
