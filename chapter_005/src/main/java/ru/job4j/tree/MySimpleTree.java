@@ -21,9 +21,11 @@ public class MySimpleTree<E extends Comparable<E>> implements SimpleTree<E> {
             Node<E> node = new Node<E>(parent);
             if (root == null) {
                 root = node;
-                root.childen.add(new Node<E>(child));
+                root.children.add(new Node<E>(child));
                 return true;
-            } else insertRec(root, node, new Node<E>(child));
+            } else {
+                insertRec(root, node, new Node<E>(child));
+            }
             return true;
         } catch (Exception exception) {
             return false;
@@ -34,19 +36,19 @@ public class MySimpleTree<E extends Comparable<E>> implements SimpleTree<E> {
         if (latestRoot.value.compareTo(parent.value) > 0) {
             if (latestRoot.left == null) {
                 latestRoot.left = parent;
-                latestRoot.left.childen.add(child);
+                latestRoot.left.children.add(child);
             } else {
                 insertRec(latestRoot.left, parent, child);
             }
         } else if (latestRoot.value.compareTo(parent.value) < 0) {
             if (latestRoot.right == null) {
                 latestRoot.right = parent;
-                latestRoot.right.childen.add(child);
+                latestRoot.right.children.add(child);
             } else {
                 insertRec(latestRoot.right, parent, child);
             }
         } else if (latestRoot.value.compareTo(parent.value) == 0) {
-            latestRoot.childen.add(child);
+            latestRoot.children.add(child);
         }
     }
 
@@ -79,8 +81,9 @@ public class MySimpleTree<E extends Comparable<E>> implements SimpleTree<E> {
 
     class Node<E> {
         E value;
-        Node<E> left, right;
-        List<Node<E>> childen;
+        Node<E> left = null;
+        Node<E> right = null;
+        List<Node<E>> children = new LinkedList<>();
 
         /**
          * Constructor.
@@ -88,8 +91,6 @@ public class MySimpleTree<E extends Comparable<E>> implements SimpleTree<E> {
          */
         Node(E value) {
             this.value = value;
-            left = right = null;
-            childen = new LinkedList<>();
         }
 
         /**
