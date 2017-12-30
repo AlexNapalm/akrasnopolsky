@@ -15,7 +15,26 @@ public class MySimpleTreeTest {
         tree.add("A", "a");
         tree.add("C", "c1");
         boolean result = tree.add("C", "c2");
-        assertTrue(result);
-        assertThat(tree.add("C", "c2"), is(true));
+        assertThat(result, is(true));
+    }
+
+    @Test
+    public void whenTreeIsBinaryThenReturnTrue() {
+        tree.add("A", "a");
+        tree.add("A", "b");
+        boolean result = tree.isBinary();
+        assertThat(result, is(true));
+    }
+
+    @Test
+    public void whenTreeIsNotBinaryThenReturnFalse() {
+        tree.add("A", "B");
+        tree.add("A", "C");
+        tree.add("B", "D");
+        tree.add("B", "E");
+        tree.add("B", "F");
+        tree.add("B", "G");
+        boolean result = tree.isBinary();
+        assertThat(result, is(false));
     }
 }

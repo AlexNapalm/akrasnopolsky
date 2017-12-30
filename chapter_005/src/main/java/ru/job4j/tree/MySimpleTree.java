@@ -17,88 +17,114 @@ public class MySimpleTree<E extends Comparable<E>> implements SimpleTree<E> {
      */
     @Override
     public boolean add(E parent, E child) {
-        try {
-            Node<E> node = new Node<E>(parent);
-            if (root == null) {
-                root = node;
-                root.children.add(new Node<E>(child));
-                return true;
-            } else {
-                insertRec(root, node, new Node<E>(child));
-            }
+        Node<E> node = new Node<E>(parent);
+        if (root == null) {
+            root = node;
+            root.children.add(new Node<E>(child));
             return true;
-        } catch (Exception exception) {
+        } else {
+            insertRec(root, node, new Node<E>(child));
+        }
+        return true;
+    }
+
+    private boolean insertRec(Node<E> latestRoot, Node<E> parent, Node<E> child) {
+        if (latestRoot.getValue().compareTo(parent.getValue()) == 0) {
+            latestRoot.getChildren().add(child);
+            return true;
+        } else {
+            for (Node<E> node : root.getChildren()) {
+                if (parent.getValue().compareTo(node.getValue()) == 0) {
+                    node.getChildren().add(child);
+                    return true;
+                }
+            }
             return false;
         }
     }
 
-    private void insertRec(Node<E> latestRoot, Node<E> parent, Node<E> child) {
-        if (latestRoot.value.compareTo(parent.value) > 0) {
-            if (latestRoot.left == null) {
-                latestRoot.left = parent;
-                latestRoot.left.children.add(child);
-            } else {
-                insertRec(latestRoot.left, parent, child);
+    /**
+     * Checks if tree is binary or not.
+     * @return true, if tree is binary, and false if not.
+     */
+    public boolean isBinary() {
+        boolean result = true;
+        if (root != null) {
+            Node<E> node = root;
+            if (!node.getChildren().isEmpty()) {
+                for (Node<E> aChildren : node.getChildren()) {
+                    if (aChildren.getChildren().size() > 2) {
+                        result = false;
+                        return result;
+                    }
+                }
             }
-        } else if (latestRoot.value.compareTo(parent.value) < 0) {
-            if (latestRoot.right == null) {
-                latestRoot.right = parent;
-                latestRoot.right.children.add(child);
-            } else {
-                insertRec(latestRoot.right, parent, child);
-            }
-        } else if (latestRoot.value.compareTo(parent.value) == 0) {
-            latestRoot.children.add(child);
+        } else {
+            result = false;
         }
+        return result;
     }
 
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            private Stack<Node<E>> stack = new Stack<>();
-            private Node<E> current = root;
+            private Stack<E> stack = new Stack<>();
+            private int index = 0;
 
             @Override
             public boolean hasNext() {
-                return (!stack.isEmpty() || current != null);
+                return (!stack.isEmpty() || root != null);
+            }
+
+            private void popInStack(Node<E> node) {
+                stack.add(node.getValue());
+                if (!node.getChildren().isEmpty()) {
+                    for (Node<E> aChilden : node.getChildren()) {
+                        popInStack(aChilden);
+                    }
+                }
+                root = null;
             }
 
             @Override
             public E next() {
-                while (current != null) {
-                    stack.push(current);
-                    current = current.left;
+                if (index == 0)  {
+                    popInStack(root);
                 }
-
-                current = stack.pop();
-                Node<E> node = current;
-                current = current.right;
-
-                return node.value;
+                index++;
+                return stack.pop();
             }
         };
     }
 
     class Node<E> {
-        E value;
-        Node<E> left = null;
-        Node<E> right = null;
-        List<Node<E>> children = new LinkedList<>();
+
+        private E value;
+        private List<Node<E>> children;
 
         /**
-         * Constructor.
-         * @param value - new value.
+         * Constructs new node.
+         * @param value value.
          */
         Node(E value) {
             this.value = value;
+            children = new LinkedList<>();
         }
 
         /**
-         * Get value.
+         * Gets value.
          * @return - parent.
          */
         public E getValue() {
             return this.value;
+        }
+
+        /**
+         * Gets list of children.
+         * @return list of children.
+         */
+        public List<Node<E>> getChildren() {
+            return this.children;
         }
     }
 }
