@@ -33,4 +33,19 @@ public class TreeTest {
         assertThat(tree.add(1, 4), is(true));
         assertThat(tree.add(1, 2), is(false));
     }
+
+    @Test
+    public void whenElementHasMoreThanTwoChildrenThenTreeNotBinary() {
+        Tree<Integer> tree = new Tree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(2, 4);
+        tree.add(2, 5);
+
+        assertThat(tree.isBinary(), is(true));
+
+        tree.add(2, 6);
+
+        assertThat(tree.isBinary(), is(false));
+    }
 }
