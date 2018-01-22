@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.util.TreeMap;
 
 public class Parser {
+
+    private static final String DEFAULT_PATH = "chapter_005\\src\\main\\java\\ru\\job4j\\orders\\orders.xml";
+    private static final String ADD_ORDER = "AddOrder";
+    private static final String DELETE_ORDER = "DeleteOrder";
     /**
      * Main container for all elements, parsed from the file.
      */
@@ -23,14 +27,13 @@ public class Parser {
      * @throws XMLStreamException
      */
     public void startParsing() throws FileNotFoundException, XMLStreamException {
-        String path = "chapter_005\\src\\main\\java\\ru\\job4j\\orders\\orders.xml";
         XMLInputFactory factory = XMLInputFactory.newInstance();
-        XMLStreamReader parser = factory.createXMLStreamReader(new FileInputStream(path));
+        XMLStreamReader parser = factory.createXMLStreamReader(new FileInputStream(DEFAULT_PATH));
 
         while (parser.hasNext()) {
             int event = parser.next();
             if (event == XMLStreamConstants.START_ELEMENT) {
-                if (parser.getLocalName().equals("AddOrder")) {
+                if (ADD_ORDER.equals(parser.getLocalName())) {
                     String book = parser.getAttributeValue(null, "book");
                     String operation = parser.getAttributeValue(null, "operation");
                     double price = Double.valueOf(parser.getAttributeValue(null, "price"));
@@ -45,7 +48,7 @@ public class Parser {
                     Order order = new Order(operation, price, volume, id);
                     orderBook.addOrder(id, order);
 
-                } else if (parser.getLocalName().equals("DeleteOrder")) {
+                } else if (DELETE_ORDER.equals(parser.getLocalName())) {
                     String book = parser.getAttributeValue(null, "book");
                     int id = Integer.valueOf(parser.getAttributeValue(null, "orderId"));
                     OrderBook orderBook = booksMap.get(book);

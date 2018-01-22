@@ -7,6 +7,8 @@ enum ExecutionResult {
 }
 
 public class OrderBook {
+
+    private static final String BUY = "BUY";
     /**
      * Unsorted BUY orders.
      */
@@ -25,7 +27,7 @@ public class OrderBook {
      * @param order order.
      */
     public void addOrder(int id, Order order) {
-        if (order.getOperation().equals("BUY")) {
+        if (BUY.equals(order.getOperation())) {
             execute(id, order, sortedSells, sortedBuys, buys, sells);
         } else {
             execute(id, order, sortedBuys, sortedSells, sells, buys);

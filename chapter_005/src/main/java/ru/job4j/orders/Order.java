@@ -1,6 +1,8 @@
 package ru.job4j.orders;
 
 public class Order implements Comparable {
+
+    private static final String SELL = "SELL";
     /**
      * operation SELL or BUY.
      */
@@ -62,10 +64,10 @@ public class Order implements Comparable {
      * @return
      */
     public boolean match(Order oppositeOrder) {
-        if (price == oppositeOrder.getPrice()) {
+        if (this.price == oppositeOrder.getPrice()) {
             return true;
         } else {
-            return this.operation.equals("SELL") ^ price > oppositeOrder.getPrice();
+            return SELL.equals(this.operation) ^ this.price > oppositeOrder.getPrice();
         }
     }
 
@@ -110,7 +112,7 @@ public class Order implements Comparable {
         Order order = (Order) o;
         if (this.id == order.getId()) {
             return 0;
-        } else if (this.operation.equals("SELL")) {
+        } else if (SELL.equals(this.operation)) {
             if (this.price > order.getPrice()) {
                 return 1;
             } else if (order.getPrice() > this.price) {
