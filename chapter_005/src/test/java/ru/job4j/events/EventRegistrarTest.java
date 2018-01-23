@@ -11,12 +11,10 @@ public class EventRegistrarTest {
     public void whenAddEventsThenReturnRightNumberOfEvents() {
         EventRegistrar er = new EventRegistrar();
 
-        er.eventPerformed();
-        er.eventPerformed();
-        er.eventPerformed();
-        er.eventPerformed();
-        er.eventPerformed();
+        for (int i = 0; i < 1_000_000; i++) {
+            er.eventPerformed();
+        }
 
-        assertThat(er.getEvents(1), is(5));
+        assertThat(er.getEvents(1), is(1_000_000));
     }
 }

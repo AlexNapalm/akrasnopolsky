@@ -1,25 +1,21 @@
 package ru.job4j.events;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Deque;
+import java.util.LinkedList;
 
 public class EventRegistrar implements EventCounter, EventFilter {
 
-    private static final int MILLIS_IN_MINUTE = 60000;
+    public static final int MILLIS_IN_MINUTE = 60000;
     /**
-     * Collection of events, where event timestamp is used as a key.
+     * List of events.
      */
-    private Map<Long, Integer> events;
-    /**
-     * Element counter used as its "index".
-     */
-    private int count = 0;
+    private Deque<Long> events;
 
     /**
      * Constructs event registrar.
      */
     public EventRegistrar() {
-        this.events = new HashMap<>();
+        this.events = new LinkedList<>();
     }
 
     /**
@@ -28,7 +24,7 @@ public class EventRegistrar implements EventCounter, EventFilter {
     @Override
     public void eventPerformed() {
         long value = System.currentTimeMillis();
-        events.put(value, count++);
+        events.addFirst(value);
     }
 
     /**
@@ -39,10 +35,17 @@ public class EventRegistrar implements EventCounter, EventFilter {
     @Override
     public int getEvents(int timePeriod) {
         long currentTime = System.currentTimeMillis();
-        long period = timePeriod * MILLIS_IN_MINUTE;
-        long range = currentTime - period;
-        int result = events.size() - events.get(range);
+        long border = timePeriod * MILLIS_IN_MINUTE;
+        long range = currentTime - border;
+        int result = 0;
 
+        for (Long element : events) {
+            if (element >= range) {
+                result++;
+            } else {
+                break;
+            }
+        }
         return result;
     }
 }
