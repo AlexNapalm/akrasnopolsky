@@ -39,10 +39,20 @@ public class WordsCounter implements Runnable {
 
     public static void main(String[] args) {
         String source = "some text to demonstrate threads";
+        Thread wc = new Thread(new WordsCounter(source));
+        Thread sc = new Thread(new SpaceCounter(source));
 
         System.out.println("start");
-        new Thread(new SpaceCounter(source)).start();
-        new Thread(new WordsCounter(source)).start();
+
+        wc.start();
+        sc.start();
+        try {
+            wc.join();
+            sc.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         System.out.println("finish");
 
     }
