@@ -10,7 +10,7 @@ public class KillThread {
         /**
          * Thread.
          */
-        private Thread thread;
+        private Thread incomingThread;
 
         /**
          * Constructs Time class. instance
@@ -19,12 +19,12 @@ public class KillThread {
          */
         Time(long timeOut, Thread thread) {
             this.timeOut = System.currentTimeMillis() + timeOut;
-            this.thread = thread;
-            thread.start();
+            this.incomingThread = thread;
         }
 
         @Override
         public void run() {
+            incomingThread.start();
             System.out.println("timer started");
             while (true) {
                 try {
@@ -32,13 +32,13 @@ public class KillThread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if (!thread.isAlive()) {
+                if (!incomingThread.isAlive()) {
                     System.out.println("timer stopped");
                     break;
                 }
                 if (this.timeOut < System.currentTimeMillis()) {
                     System.out.println("timed out");
-                    thread.interrupt();
+                    incomingThread.interrupt();
                     break;
                 }
             }
