@@ -8,10 +8,11 @@ import java.util.List;
 
 @ThreadSafe
 public class UserStorage {
-    @GuardedBy("this")
+
     /**
      * Container for users.
      */
+    @GuardedBy("this")
     private List<User> users;
 
     /**
@@ -37,7 +38,7 @@ public class UserStorage {
      */
     public synchronized boolean update(User user) {
         boolean result = false;
-        if (this.users.get(user.getId()) != null) {
+        if (this.users.contains(user)) {
             delete(user);
             add(user);
             result = true;
@@ -63,8 +64,15 @@ public class UserStorage {
      */
     public synchronized boolean transfer(int fromId, int toId, int amount) {
         boolean result = false;
-        User userFrom = this.users.get(fromId - 1);
-        User userTo = this.users.get(toId - 1);
+        User userFrom = null;
+        User userTo = null;
+        for (User user : this.users) {
+            if (user.getId() == fromId) {
+                userFrom = user;
+            } else if (user.getId() == toId) {
+                userTo = user;
+            }
+        }
         if (userFrom != null && userTo != null) {
             int accountFrom = userFrom.getAmount();
             int accountTo = userTo.getAmount();
