@@ -11,10 +11,14 @@ public class SimpleBlockingQueue<T> {
     /**
      * Size limit.
      */
-    private static final int MAX_SIZE = 5;
+    private final int maxSize;
 
     @GuardedBy("this")
     private Queue<T> queue = new LinkedList<>();
+
+    public SimpleBlockingQueue(int maxSize) {
+        this.maxSize = maxSize;
+    }
 
     /**
      * Adds element.
@@ -52,21 +56,21 @@ public class SimpleBlockingQueue<T> {
         System.out.println("Item bought, size: " + size());
         return result;
     }
-    @GuardedBy("this")
+
     public int size() {
         return this.queue.size();
     }
-    @GuardedBy("this")
+
     public boolean isEmpty() {
         return this.queue.isEmpty();
     }
-    @GuardedBy("this")
+
     public boolean isFull() {
-        return this.size() >= MAX_SIZE;
+        return this.size() >= this.maxSize;
     }
 
     public static void main(String[] args) throws InterruptedException {
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
+        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(5);
 
         Thread producer = new Thread() {
             @Override
