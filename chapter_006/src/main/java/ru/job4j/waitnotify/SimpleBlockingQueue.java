@@ -34,7 +34,7 @@ public class SimpleBlockingQueue<T> {
         }
         this.queue.offer(value);
         System.out.println("Item added, size: " + size());
-        notify();
+        notifyAll();
 
     }
     /**
@@ -52,20 +52,22 @@ public class SimpleBlockingQueue<T> {
         }
 
         T result = this.queue.poll();
-        notify();
+        notifyAll();
         System.out.println("Item bought, size: " + size());
         return result;
     }
-
-    public int size() {
+    @GuardedBy("this")
+    public synchronized int size() {
         return this.queue.size();
     }
 
-    public boolean isEmpty() {
+    @GuardedBy("this")
+    public synchronized boolean isEmpty() {
         return this.queue.isEmpty();
     }
 
-    public boolean isFull() {
+    @GuardedBy("this")
+    public synchronized boolean isFull() {
         return this.size() >= this.maxSize;
     }
 
