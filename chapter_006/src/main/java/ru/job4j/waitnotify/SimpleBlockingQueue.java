@@ -90,10 +90,10 @@ public class SimpleBlockingQueue<T> {
                 }
             }
         };
-        producer.join();
-        customer.join();
-
         customer.start();
         producer.start();
+
+        producer.join();
+        customer.join();
     }
 }
