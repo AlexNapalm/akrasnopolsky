@@ -49,19 +49,18 @@ public class ParallelSearch {
         }
         isFinished = true;
     }
-
     @GuardedBy("this")
     public synchronized void startRead() {
-        while (!isFinished || !files.isEmpty()) {
+        while (!isFinished || !this.filesIsEmpty()) {
             String string;
-            if (!files.isEmpty()) {
-                File file = new File(files.poll());
+            if (!this.filesIsEmpty()) {
+                File file = new File(pollFile());
                 try {
                     FileInputStream fstream = new FileInputStream(file);
                     BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
                     while ((string = br.readLine()) != null) {
                         if (string.contains(text)) {
-                            paths.add(file.toString());
+                            this.addPath(file.toString());
                         }
                     }
                 } catch (IOException e) {
@@ -85,13 +84,29 @@ public class ParallelSearch {
             }
         };
     }
-
-    synchronized Queue<String> getFiles() {
+    @GuardedBy("this")
+    public synchronized Queue<String> getFiles() {
         return this.files;
     }
     @GuardedBy("this")
-    synchronized List<String> result() {
+    public synchronized List<String> getResult() {
         return this.paths;
+    }
+    @GuardedBy("this")
+    public synchronized void offer(String filePath) {
+        this.files.offer(filePath);
+    }
+    @GuardedBy("this")
+    public synchronized String pollFile() {
+        return this.files.poll();
+    }
+    @GuardedBy("this")
+    public synchronized void addPath(String path) {
+        this.paths.add(path);
+    }
+    @GuardedBy("this")
+    public synchronized boolean filesIsEmpty() {
+        return this.files.isEmpty();
     }
 
     public String getExtension(String fileName) {
@@ -107,7 +122,6 @@ public class ParallelSearch {
     /**
      * Class implementing FileVisitor methods to search through dir tree.
      */
-    @ThreadSafe
     public class MyFileVisitor extends SimpleFileVisitor<Path> {
         @Override
         public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
@@ -117,22 +131,11 @@ public class ParallelSearch {
             }
             return FileVisitResult.CONTINUE;
         }
-        @GuardedBy("this")
         @Override
-        public synchronized FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
             if (exts.contains(getExtension(file.toString()))) {
-                files.offer(file.toString());
+                offer(file.toString());
             }
-            return FileVisitResult.CONTINUE;
-        }
-
-        @Override
-        public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-            return FileVisitResult.CONTINUE;
-        }
-
-        @Override
-        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
             return FileVisitResult.CONTINUE;
         }
     }
@@ -149,7 +152,7 @@ public class ParallelSearch {
         ps.search.join();
         ps.read.join();
 
-        List<String> result = ps.result();
+        List<String> result = ps.getResult();
         System.out.println("Result:");
         for (String path : result) {
             System.out.println(path);
