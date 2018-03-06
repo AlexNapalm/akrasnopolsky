@@ -1,0 +1,18 @@
+--выводим все машины
+select car.name, e.type, t.type, cb.type from cars as car
+join engines as e on car.engine_type = e.id
+join transmissions as t on car.transmission_type = t.id
+join carbodies as cb on car.carbody_type = cb.id
+
+--выводим неиспользуемые детали
+select e.type as engine, null transmission, null carbody from cars as car
+right outer join engines as e on car.engine_type = e.id
+where car.name is null
+union all
+select null engine, t.type as transmission, null carbody from cars as car
+right outer join transmissions as t on car.transmission_type = t.id
+where car.name is null
+union all
+select null as engine, null transmission, cb.type as carbody from cars as car
+right outer join carbodies as cb on car.carbody_type = cb.id
+where car.name is null

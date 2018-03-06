@@ -1,0 +1,23 @@
+insert into engines(type) values
+('v4'), --
+('v8'), --
+('turbo'),
+('v16'); --
+
+insert into transmissions(type) values
+('mechanic'),
+('auto'), --
+('semi-auto');
+
+insert into carbodies(type) values
+('sedan'), --
+('hatchback'), --
+('coupe'), --
+('universal'),
+('crossover');
+
+insert into cars(name, engine_type, transmission_type, carbody_type) values 
+('BMW', 2, 2, 3),
+('Lada', 1, 2, 1),
+('Bugatti', 4, 2, 3),
+('Hyundai', 1, 2, 2);

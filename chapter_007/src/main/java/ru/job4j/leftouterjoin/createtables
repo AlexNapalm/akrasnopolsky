@@ -1,0 +1,22 @@
+create table engines(
+	id serial primary key,
+	type varchar(200)
+);
+
+create table transmissions(
+	id serial primary key,
+	type varchar(200)
+);
+
+create table carbodies(
+	id serial primary key,
+	type varchar(200)
+);
+
+create table cars(
+	id serial primary key,
+	name varchar(200),
+	engine_type int references engines(id),
+	transmission_type int references transmissions(id),
+	carbody_type int references carbodies(id)
+);
