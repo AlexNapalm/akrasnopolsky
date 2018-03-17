@@ -19,7 +19,7 @@
 	    <module>chapter_003</module>
         <module>chapter_005</module>
         <module>chapter_006</module>
-	<module>chapter_007</module>
+	    <module>chapter_007</module>
     </modules>
 	
 	<dependencies>
@@ -41,13 +41,12 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.1-901-1.jdbc4</version>
+            <version>42.2.1</version>
         </dependency>
 
     </dependencies>
-	
 	    <build>
         <plugins>
             <plugin>
