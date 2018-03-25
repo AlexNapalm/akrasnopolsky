@@ -46,8 +46,8 @@ public class StartUI {
      */
     public static void main(String[] args) {
         DatabaseController controller = new DatabaseController();
-        controller.initTables();
-        controller.fillTables();
+        controller.execSqlScript("createtables.sql");
+        controller.execSqlScript("insertvalues.sql");
         Tracker tracker = new Tracker(controller);
         Input input = new ValidateInput();
         new StartUI(input, tracker).init();

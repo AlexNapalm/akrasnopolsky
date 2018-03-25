@@ -1,23 +1,19 @@
---создаем таблицу ролей
-create table roles(
+create table if not exists roles(
 	id serial primary key,
 	title character varying (2000)
 );
 
---создаем таблицу правил
-create table rules(
+create table if not exists rules(
 	id serial primary key,
 	title character varying (2000)
 );
 
---создаем таблицу сопоставления роли и прав
-create table user_rights(
+create table if not exists user_rights(
 	role_id integer references roles(id),
 	rule_id integer references rules(id)
 );
 
---создаем таблицу юзеров
-create table users(
+create table if not exists users(
 	id serial primary key,
 	role_id integer references roles(id),
 	login character varying (2000),
@@ -25,20 +21,17 @@ create table users(
 	create_date timestamp
 );
 
---создаем таблицу категорий заявки
-create table categories(
+create table if not exists categories(
 	id serial primary key,
 	title character varying(2000)
 );
 
---создаем таблицу статусов заявки
-create table states(
+create table if not exists states(
 	id serial primary key,
 	title character varying(2000)
 );
 
---создаем таблицу заявок
-create table items(
+create table if not exists items(
 	id serial primary key,
 	state_id integer references states(id),
 	category_id integer references categories(id),
@@ -48,15 +41,13 @@ create table items(
 	user_id integer references users(id)
 );
 
---создаем таблицу вложений к заявкам
-create table attachs(
+create table if not exists attachs(
 	id serial primary key,
 	upload_date timestamp,
 	item_id integer references items(id)
 );
 
---создаем таблицу комментариев к заявкам
-create table comments(
+create table if not exists comments(
 	id serial primary key,
 	item_id integer references items(id),
 	create_date timestamp
