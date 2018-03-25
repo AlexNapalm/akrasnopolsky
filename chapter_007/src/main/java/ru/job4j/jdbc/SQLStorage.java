@@ -1,8 +1,6 @@
 package ru.job4j.jdbc;
 
 import java.sql.*;
-import java.util.Properties;
-import java.util.concurrent.locks.Lock;
 
 public class SQLStorage {
     public static void main(String[] args) {
