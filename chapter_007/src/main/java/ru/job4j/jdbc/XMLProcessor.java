@@ -69,7 +69,7 @@ public class XMLProcessor {
      * Checks if database has the table. If it does not exist, method will create it.
      */
     public void initTable() {
-        try(Connection conn = DriverManager.getConnection(this.url, this.username, this.password)) {
+        try (Connection conn = DriverManager.getConnection(this.url, this.username, this.password)) {
             Statement st = conn.createStatement();
             st.execute("CREATE TABLE if not EXISTS test (field int)");
         } catch (SQLException e) {
@@ -121,7 +121,7 @@ public class XMLProcessor {
     public void createXML() {
         String file = "1.xml";
         XMLOutputFactory factory = XMLOutputFactory.newInstance();
-        try(Connection conn = DriverManager.getConnection(this.url, this.username, this.password)) {
+        try (Connection conn = DriverManager.getConnection(this.url, this.username, this.password)) {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM test");
             XMLStreamWriter writer = factory.createXMLStreamWriter(new FileWriter(file));
