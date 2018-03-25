@@ -121,10 +121,13 @@ public class XMLProcessor {
     public void createXML() {
         String file = "1.xml";
         XMLOutputFactory factory = XMLOutputFactory.newInstance();
-        try (Connection conn = DriverManager.getConnection(this.url, this.username, this.password)) {
+        try (Connection conn =
+                     DriverManager.getConnection(this.url, this.username, this.password);
+            FileWriter fw =
+                new FileWriter(file)) {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM test");
-            XMLStreamWriter writer = factory.createXMLStreamWriter(new FileWriter(file));
+            XMLStreamWriter writer = factory.createXMLStreamWriter(fw);
             writer.writeStartDocument();
             writer.writeStartElement("entries");
             while (rs.next()) {
