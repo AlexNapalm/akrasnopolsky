@@ -17,17 +17,18 @@ public class Board {
     final int height;
 
     /**
-     * Constructs the square board.
-     * @param size size of height and width.
+     * Constructs board.
+     * @param width width.
+     * @param height height.
      */
-    public Board(int size) {
-        this.width = size;
-        this.height = size;
-        this.board = new ReentrantLock[size][size];
+    public Board(int width, int height) {
+        this.width = width;
+        this.height = height;
 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                this.board[i][j] = new ReentrantLock();
+        board = new ReentrantLock[this.height][this.width];
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                board[i][j] = new ReentrantLock();
             }
         }
     }
@@ -58,24 +59,12 @@ public class Board {
         return this.height;
     }
 
-    public static void main(String[] args) {
-        Board board = new Board(10);
-        Hero hero1 = new Hero("Player-1", board, 0, 0);
-        Hero hero2 = new Hero("Player-2", board, 5, 5);
-
-        Thread t1 = new Thread(hero1, "hero1");
-        Thread t2 = new Thread(hero2, "hero2");
-
-        t1.start();
-        t2.start();
-
-        try {
-            Thread.sleep(20000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        hero1.stopMovement();
-        hero2.stopMovement();
+    /**
+     * Locks the cell.
+     * @param x x coordinate.
+     * @param y y coordinate.
+     */
+    public void blockCell(int x, int y) {
+        this.getCell(x, y).lock();
     }
 }
