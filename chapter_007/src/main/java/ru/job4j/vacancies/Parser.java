@@ -88,15 +88,12 @@ public class Parser extends TimerTask {
      * @return false if found vacancy older than compare date.
      */
     private boolean parseEachPage(int number) {
-        Document document;
         try {
-            document = Jsoup.connect("http://www.sql.ru/forum/job-offers/" + number).get();
+            Document document = Jsoup.connect("http://www.sql.ru/forum/job-offers/" + number).get();
             Element table = document.selectFirst("table.forumTable");
             Elements els = table.select("tr");
 
-
             for (int i = 4; i < els.size(); i++) {
-
                 String date = this.normalizeDate(els.get(i).select("td").last().text());
                 if (this.isNewDate(date)) {
                     String text = els.get(i).select("td.postslisttopic").text();
@@ -140,7 +137,6 @@ public class Parser extends TimerTask {
         return date;
     }
 
-
     /**
      * Checks if vacancy date is actual.
      * @param date vacancy date.
@@ -150,10 +146,8 @@ public class Parser extends TimerTask {
         boolean result = true;
         try {
             SimpleDateFormat format = new SimpleDateFormat("dd MMM yy, HH:mm", new Locale("ru"));
-
             Date vacancyDate = format.parse(date);
             Date startDate = format.parse(this.start);
-
             if (startDate.after(vacancyDate)) {
                 result = false;
             }
