@@ -8,10 +8,8 @@ import java.util.Properties;
 public class Database {
 
     private static final Logger LOGGER = Logger.getLogger(Database.class);
-
-    Connection conn;
-
-    Properties properties;
+    private Connection conn;
+    private Properties properties;
 
     Database(Properties p) {
         this.properties = p;
@@ -39,7 +37,6 @@ public class Database {
      * @param date date
      */
     public void addVacancy(String text, String link, String date) {
-
         this.createTable();
         String sql = "UPDATE vacancies SET date = ? WHERE link = ?;"
                     + "INSERT INTO vacancies (text, link, date)"
@@ -65,7 +62,6 @@ public class Database {
      * Creates table.
      */
     private void createTable() {
-
         String sql = "CREATE TABLE IF NOT EXISTS vacancies ("
                 + "id SERIAL PRIMARY KEY,"
                 + "text varchar(255),"

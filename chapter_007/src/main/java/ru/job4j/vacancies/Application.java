@@ -13,8 +13,8 @@ public class Application {
      */
     public Properties getProperties() {
         Properties properties = null;
-
-        try (Reader reader = new InputStreamReader(new FileInputStream("chapter_007\\src\\main\\resources\\parse.properties"))) {
+        try (InputStream stream = this.getClass().getClassLoader().getResourceAsStream("parse.properties")) {
+            Reader reader = new InputStreamReader(stream);
             properties = new Properties();
             properties.load(reader);
         } catch (IOException e) {
@@ -26,7 +26,6 @@ public class Application {
 
 
     public static void main(String[] args) {
-
         Application app = new Application();
         Properties properties = app.getProperties();
 
