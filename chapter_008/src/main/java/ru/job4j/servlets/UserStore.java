@@ -16,7 +16,6 @@ public enum UserStore {
     INSTANCE;
 
     private static final Logger LOGGER = Logger.getLogger(UserStore.class);
-    private static Connection conn;
     private static ComboPooledDataSource cpds;
 
     /**
@@ -30,9 +29,7 @@ public enum UserStore {
             cpds.setUser("postgres");
             cpds.setPassword("postgres");
             cpds.setMaxPoolSize(20);
-
-            conn = cpds.getConnection();
-        } catch (PropertyVetoException | SQLException e) {
+        } catch (PropertyVetoException e) {
             LOGGER.error(e.getMessage(), e);
         }
     }
@@ -43,7 +40,8 @@ public enum UserStore {
      * @param email email
      */
     public void addUser(String login, String email) {
-        try (PreparedStatement pst = conn.prepareStatement("INSERT INTO usersserv(login, email, createDate) values(?, ?, current_date)")) {
+        try (Connection conn = cpds.getConnection();
+             PreparedStatement pst = conn.prepareStatement("INSERT INTO usersserv(login, email, createDate) values(?, ?, current_date)")) {
             pst.setString(1, login);
             pst.setString(2, email);
             pst.executeUpdate();
@@ -58,7 +56,8 @@ public enum UserStore {
      * @param email email.
      */
     public void editUser(String login, String email) {
-        try (PreparedStatement pst = conn.prepareStatement("update usersserv set email = (?) where login = (?)")) {
+        try (Connection conn = cpds.getConnection();
+             PreparedStatement pst = conn.prepareStatement("update usersserv set email = (?) where login = (?)")) {
             pst.setString(1, email);
             pst.setString(2, login);
             pst.executeUpdate();
@@ -73,7 +72,8 @@ public enum UserStore {
      */
     public List<User> getAllUsers() {
         List<User> result = new ArrayList<>();
-        try (PreparedStatement pst = conn.prepareStatement("select * from usersserv");
+        try (Connection conn = cpds.getConnection();
+             PreparedStatement pst = conn.prepareStatement("select * from usersserv");
                 ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
                 User user = new User();
@@ -95,7 +95,8 @@ public enum UserStore {
      */
     public String getEmailByLogin(String login) {
        String result = null;
-        try (PreparedStatement pst = conn.prepareStatement("select email from usersserv where login = (?)")) {
+        try (Connection conn = cpds.getConnection();
+             PreparedStatement pst = conn.prepareStatement("select email from usersserv where login = (?)")) {
             pst.setString(1, login);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -112,7 +113,8 @@ public enum UserStore {
      * @param login login.
      */
     public void deleteUser(String login) {
-        try (PreparedStatement pst = conn.prepareStatement("delete from usersserv where login = (?)")) {
+        try (Connection conn = cpds.getConnection();
+             PreparedStatement pst = conn.prepareStatement("delete from usersserv where login = (?)")) {
             pst.setString(1, login);
             pst.executeUpdate();
         } catch (SQLException e) {
