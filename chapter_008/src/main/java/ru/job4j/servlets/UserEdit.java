@@ -16,6 +16,6 @@ public class UserEdit extends HttpServlet {
         String email = req.getParameter("email");
         users.editUser(login, email);
         resp.setContentType("text/html");
-        resp.sendRedirect(String.format("%s/index.jsp", req.getContextPath()));
+        resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }
 }

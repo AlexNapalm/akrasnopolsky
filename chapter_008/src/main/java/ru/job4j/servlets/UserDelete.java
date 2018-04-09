@@ -20,6 +20,6 @@ public class UserDelete extends HttpServlet {
         String login = req.getParameter("login");
         users.deleteUser(login);
         resp.setContentType("text/html");
-        resp.sendRedirect(String.format("%s/index.jsp", req.getContextPath()));
+        resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }
 }

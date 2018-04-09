@@ -9,8 +9,8 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
-        <servlet-name>UserCreate</servlet-name>
-        <servlet-class>ru.job4j.servlets.UserCreate</servlet-class>
+        <servlet-name>Users Controller Servlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.UsersController</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
@@ -42,8 +42,8 @@
         <url-pattern>/list</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UserCreate</servlet-name>
-        <url-pattern>/create</url-pattern>
+        <servlet-name>Users Controller Servlet</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserEdit</servlet-name>

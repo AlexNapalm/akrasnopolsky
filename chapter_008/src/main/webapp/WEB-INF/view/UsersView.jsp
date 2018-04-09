@@ -1,5 +1,6 @@
 <%@ page import="ru.job4j.crud.User" %>
-<%@ page import="ru.job4j.servlets.UserStore" %><%--
+<%@ page import="ru.job4j.servlets.UserStore" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Napalm
   Date: 06.04.2018
@@ -7,13 +8,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
 
-<form action="<%=request.getContextPath()%>/create" method="post">
+<form action="${pageContext.servletContext.contextPath}/" method="post">
     Login : <input type="text" name="login"><br/>
     Email : <input type="text" name="email"><br/>
     <input type="submit" value="create">
@@ -24,20 +26,20 @@
         <th>login</th>
         <th>email</th>
     </tr>
-    <% for (User user : UserStore.INSTANCE.getAllUsers()) {%>
+    <c:forEach items="${users}" var="user">
     <tr>
-        <form action="<%=request.getContextPath()%>/edit" method="post">
+        <form action="${pageContext.servletContext.contextPath}/edit" method="post">
             <td>
-                <input type="text" name="login" value=<%=user.getLogin()%>>
+        <input type="text" name="login" value=<c:out value="${user.login}"></c:out>>
             </td>
             <td>
-                <input type="text" name="email" value=<%=user.getEmail()%>>
+                <input type="text" name="email" value=<c:out value="${user.email}"></c:out>>
                 <input type="submit" value="edit">
             </td>
-            <td><button formaction='<%=request.getContextPath()%>/delete'> delete </button></td>
+            <td><button formaction='${pageContext.servletContext.contextPath}/delete'> delete </button></td>
         </form>
     </tr>
-    <% } %>
+    </c:forEach>
 </table>
 
 </body>
