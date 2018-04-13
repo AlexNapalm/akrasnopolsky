@@ -11,32 +11,30 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Control panel</title>
 </head>
 <body>
 
-<form action="${pageContext.servletContext.contextPath}/" method="post">
-    Login : <input type="text" name="login"><br/>
-    Email : <input type="text" name="email"><br/>
-    <input type="submit" value="create">
-</form>
 <br/>
 <table style="border: 1px solid black" cellpadding="1" cellspacing="1" border="1">
     <tr>
         <th>login</th>
+        <th>password</th>
         <th>email</th>
     </tr>
     <c:forEach items="${users}" var="user">
     <tr>
         <form action="${pageContext.servletContext.contextPath}/edit" method="post">
             <td>
-        <input type="text" name="login" value=<c:out value="${user.login}"></c:out>>
+                <input type="text" name="login" value=<c:out value="${user.login}"></c:out>>
+            </td>
+            <td>
+                <input type="password" name="password" value=<c:out value="${user.password}"></c:out>>
             </td>
             <td>
                 <input type="text" name="email" value=<c:out value="${user.email}"></c:out>>
                 <input type="submit" value="edit">
             </td>
-            <td><button formaction='${pageContext.servletContext.contextPath}/delete'> delete </button></td>
         </form>
     </tr>
     </c:forEach>

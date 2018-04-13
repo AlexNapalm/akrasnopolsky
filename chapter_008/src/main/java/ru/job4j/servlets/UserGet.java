@@ -17,7 +17,7 @@ public class UserGet extends HttpServlet {
 //    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        resp.setContentType("text/html");
 //        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-//        List<User> list = users.getAllUsers();
+//        List<User> list = users.getUsers();
 //        writer.append("<!DOCTYPE html>"
 //                + "<html lang=\"en\">"
 //                + "<head>"

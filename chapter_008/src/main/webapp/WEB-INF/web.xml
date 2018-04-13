@@ -9,7 +9,7 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
-        <servlet-name>Users Controller Servlet</servlet-name>
+        <servlet-name>UsersController</servlet-name>
         <servlet-class>ru.job4j.servlets.UsersController</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -28,6 +28,11 @@
         <servlet-class>ru.job4j.servlets.UserDelete</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>SigninController</servlet-name>
+        <servlet-class>ru.job4j.servlets.SigninController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>EchoServlet</servlet-name>
@@ -42,7 +47,7 @@
         <url-pattern>/list</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Users Controller Servlet</servlet-name>
+        <servlet-name>UsersController</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -52,5 +57,9 @@
     <servlet-mapping>
         <servlet-name>UserDelete</servlet-name>
         <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SigninController</servlet-name>
+        <url-pattern>/signin</url-pattern>
     </servlet-mapping>
 </web-app>

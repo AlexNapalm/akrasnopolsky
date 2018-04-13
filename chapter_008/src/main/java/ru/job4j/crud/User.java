@@ -2,8 +2,10 @@ package ru.job4j.crud;
 
 public class User {
     private String login;
+    private String password;
     private String email;
     private String createDate;
+    private Role role = new Role();
 
     public String getLogin() {
         return login;
@@ -11,6 +13,14 @@ public class User {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -29,13 +39,11 @@ public class User {
         this.createDate = createDate;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("User{");
-        sb.append("login='").append(login).append('\'');
-        sb.append(", email='").append(email).append('\'');
-        sb.append(", createDate='").append(createDate).append('\'');
-        sb.append('}');
-        return sb.toString();
+    public int getRole() {
+        return role.getId();
+    }
+
+    public void setRole(int roleId) {
+        this.role.setId(roleId);
     }
 }
