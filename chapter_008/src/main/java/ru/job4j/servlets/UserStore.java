@@ -201,4 +201,14 @@ public enum UserStore {
         }
         return user;
     }
+
+    public void flushTable() {
+        try (Connection conn = cpds.getConnection();
+             PreparedStatement pst = conn.prepareStatement("delete from usersserv")) {
+            pst.execute();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+    }
+
 }

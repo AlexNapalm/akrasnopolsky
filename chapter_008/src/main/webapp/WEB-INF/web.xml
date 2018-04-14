@@ -14,11 +14,6 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
-        <servlet-name>UserGet</servlet-name>
-        <servlet-class>ru.job4j.servlets.UserGet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet>
         <servlet-name>UserEdit</servlet-name>
         <servlet-class>ru.job4j.servlets.UserEdit</servlet-class>
         <load-on-startup>1</load-on-startup>
@@ -41,10 +36,6 @@
     <servlet-mapping>
         <servlet-name>UsersServlet</servlet-name>
         <url-pattern>/users</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UserGet</servlet-name>
-        <url-pattern>/list</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UsersController</servlet-name>

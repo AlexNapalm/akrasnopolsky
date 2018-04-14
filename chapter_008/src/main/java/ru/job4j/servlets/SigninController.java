@@ -25,7 +25,6 @@ public class SigninController extends HttpServlet {
         if (user != null) {
             HttpSession session = req.getSession();
             session.setAttribute("login", user.getLogin());
-            //session.setAttribute("role", user.getRole());
             resp.sendRedirect(String.format("%s/", req.getContextPath()));
         } else {
             req.setAttribute("error", "Credentials are invalid");

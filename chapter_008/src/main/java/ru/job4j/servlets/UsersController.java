@@ -1,7 +1,5 @@
 package ru.job4j.servlets;
 
-import ru.job4j.crud.User;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
