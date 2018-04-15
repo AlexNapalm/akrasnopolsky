@@ -13,17 +13,13 @@ public class UsersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("login") == null) {
-            resp.sendRedirect(String.format("%s/signin", req.getContextPath()));
+        int role = users.getUserRole((String) session.getAttribute("login"));
+        if (role == 1) {
+            req.setAttribute("users", users.getUsers());
+            req.getRequestDispatcher("/WEB-INF/view/SuperUserView.jsp").forward(req, resp);
         } else {
-            int role = users.getUserRole((String) session.getAttribute("login"));
-            if (role == 1) {
-                req.setAttribute("users", users.getUsers());
-                req.getRequestDispatcher("/WEB-INF/view/SuperUserView.jsp").forward(req, resp);
-            } else {
-                req.setAttribute("users", users.getOneUser((String) session.getAttribute("login")));
-                req.getRequestDispatcher("/WEB-INF/view/UserView.jsp").forward(req, resp);
-            }
+            req.setAttribute("users", users.getOneUser((String) session.getAttribute("login")));
+            req.getRequestDispatcher("/WEB-INF/view/UserView.jsp").forward(req, resp);
         }
     }
 
