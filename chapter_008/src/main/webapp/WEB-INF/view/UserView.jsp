@@ -1,5 +1,5 @@
-<%@ page import="ru.job4j.crud.User" %>
-<%@ page import="ru.job4j.servlets.UserStore" %>
+<%@ page import="ru.job4j.models.User" %>
+<%@ page import="ru.job4j.servlets.DbController" %>
 <%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Napalm
@@ -12,6 +12,9 @@
 <html>
 <head>
     <title>Control panel</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 
@@ -21,6 +24,8 @@
         <th>login</th>
         <th>password</th>
         <th>email</th>
+        <th>country</th>
+        <th>city</th>
     </tr>
     <c:forEach items="${users}" var="user">
     <tr>
@@ -33,6 +38,12 @@
             </td>
             <td>
                 <input type="text" name="email" value=<c:out value="${user.email}"></c:out>>
+            </td>
+            <td>
+                <input type="text" name="country" value=<c:out value="${user.country}"></c:out>>
+            </td>
+            <td>
+                <input type="text" name="city" value=<c:out value="${user.city}"></c:out>>
                 <input type="submit" value="edit">
             </td>
         </form>

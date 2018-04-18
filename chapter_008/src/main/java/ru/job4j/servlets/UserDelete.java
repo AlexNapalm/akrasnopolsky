@@ -7,18 +7,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class UserDelete extends HttpServlet {
-    private final UserStore users = UserStore.INSTANCE;
+    private final DbController db = DbController.INSTANCE;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
-        users.deleteUser(login);
+        db.deleteUser(login);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
-        users.deleteUser(login);
+        db.deleteUser(login);
         resp.setContentType("text/html");
         resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }

@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class AuthFilter implements Filter {
-    private final UserStore users = UserStore.INSTANCE;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -21,7 +20,7 @@ public class AuthFilter implements Filter {
         if (request.getRequestURI().contains("/signin")) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            if (session.getAttribute("login") == null) {
+            if (session.getAttribute("login") == null && !request.getRequestURI().contains("/register") && !request.getRequestURI().contains("/cities_by_country")) {
                 ((HttpServletResponse) servletResponse).sendRedirect(String.format("%s/signin", request.getContextPath()));
                 return;
             }

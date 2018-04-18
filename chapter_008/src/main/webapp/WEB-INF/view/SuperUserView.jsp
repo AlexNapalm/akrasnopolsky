@@ -1,5 +1,5 @@
-<%@ page import="ru.job4j.crud.User" %>
-<%@ page import="ru.job4j.servlets.UserStore" %>
+<%@ page import="ru.job4j.models.User" %>
+<%@ page import="ru.job4j.servlets.DbController" %>
 <%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Napalm
@@ -12,22 +12,19 @@
 <html>
 <head>
     <title>Control panel</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-<form action="${pageContext.servletContext.contextPath}/" method="post">
-    Login : <input type="text" name="login"><br/>
-    Password : <input type="password" name="password"><br/>
-    Email : <input type="text" name="email"><br/>
-    Role : <input type="text" name="role"><br/>
-    <input type="submit" value="create">
-</form>
 <br/>
 <table style="border: 1px solid black" cellpadding="1" cellspacing="1" border="1">
     <tr>
         <th>login</th>
         <th>password</th>
         <th>email</th>
+        <th>country</th>
+        <th>city</th>
         <th>role</th>
     </tr>
     <c:forEach items="${users}" var="user">
@@ -41,6 +38,12 @@
             </td>
             <td>
                 <input type="text" name="email" value=<c:out value="${user.email}"></c:out>>
+            </td>
+            <td>
+                <input type="text" name="country" value=<c:out value="${user.country}"></c:out>>
+            </td>
+            <td>
+                <input type="text" name="city" value=<c:out value="${user.city}"></c:out>>
             </td>
             <td>
                 <input type="text" name="role" value=<c:out value="${user.role}"></c:out>>

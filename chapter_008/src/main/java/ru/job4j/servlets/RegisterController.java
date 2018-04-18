@@ -4,23 +4,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 
-public class UsersController extends HttpServlet {
+public class RegisterController extends HttpServlet {
     private final DbController db = DbController.INSTANCE;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
-        int role = db.getUserRole((String) session.getAttribute("login"));
-        if (role == 1) {
-            req.setAttribute("users", db.getUsers());
-            req.getRequestDispatcher("/WEB-INF/view/SuperUserView.jsp").forward(req, resp);
-        } else {
-            req.setAttribute("users", db.getOneUser((String) session.getAttribute("login")));
-            req.getRequestDispatcher("/WEB-INF/view/UserView.jsp").forward(req, resp);
-        }
+        req.setAttribute("roles", db.getRoles());
+        req.setAttribute("countries", db.getCountries());
+        req.setAttribute("cities", db.getCities());
+        req.getRequestDispatcher("/WEB-INF/view/RegisterView.jsp").forward(req, resp);
     }
 
     @Override
@@ -34,6 +29,6 @@ public class UsersController extends HttpServlet {
 
         db.addUser(login, password, email, roleId, countryId, cityId);
         resp.setContentType("text/html");
-        resp.sendRedirect(String.format("%s/", req.getContextPath()));
+        resp.sendRedirect(String.format("%s/register", req.getContextPath()));
     }
 }

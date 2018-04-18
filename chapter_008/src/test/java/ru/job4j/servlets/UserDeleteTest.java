@@ -2,7 +2,7 @@ package ru.job4j.servlets;
 
 import org.junit.Before;
 import org.junit.Test;
-import ru.job4j.crud.User;
+import ru.job4j.models.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +16,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class UserDeleteTest {
-    private final UserStore userStore = UserStore.INSTANCE;
+    private final DbController db = DbController.INSTANCE;
 
     @Before
     public void setUp() {
-        userStore.flushTable();
+        db.flushTable();
     }
 
     @Test
@@ -33,22 +33,26 @@ public class UserDeleteTest {
         when(request.getParameter("login")).thenReturn("root");
         when(request.getParameter("password")).thenReturn("root123");
         when(request.getParameter("email")).thenReturn("root@root.ru");
-        when(request.getParameter("role")).thenReturn("1");
+        when(request.getParameter("role")).thenReturn("admin");
+        when(request.getParameter("country")).thenReturn("Russia");
+        when(request.getParameter("city")).thenReturn("Moscow");
         controller.doPost(request, response);
 
         when(request.getParameter("login")).thenReturn("Alex");
         when(request.getParameter("password")).thenReturn("Krasnopolsky");
         when(request.getParameter("email")).thenReturn("alex@krasnopolsky.ru");
-        when(request.getParameter("role")).thenReturn("2");
+        when(request.getParameter("role")).thenReturn("user");
+        when(request.getParameter("country")).thenReturn("Russia");
+        when(request.getParameter("city")).thenReturn("Moscow");
         controller.doPost(request, response);
 
-        List<User> users = userStore.getUsers();
+        List<User> users = db.getUsers();
         assertThat(users.size(), is(2));
 
         when(request.getParameter("login")).thenReturn("Alex");
         deleteServlet.doPost(request, response);
 
-        users = userStore.getUsers();
+        users = db.getUsers();
         assertThat(users.size(), is(1));
     }
 }

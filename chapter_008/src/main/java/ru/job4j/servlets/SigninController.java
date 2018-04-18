@@ -1,6 +1,6 @@
 package ru.job4j.servlets;
 
-import ru.job4j.crud.User;
+import ru.job4j.models.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class SigninController extends HttpServlet {
-    private final UserStore users = UserStore.INSTANCE;
+    private final DbController db = DbController.INSTANCE;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -21,7 +21,7 @@ public class SigninController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        User user = users.isRegistered(login, password);
+        User user = db.isRegistered(login, password);
         if (user != null) {
             HttpSession session = req.getSession();
             session.setAttribute("login", user.getLogin());
