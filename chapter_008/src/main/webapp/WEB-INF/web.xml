@@ -1,5 +1,25 @@
 <web-app>
     <servlet>
+        <servlet-name>AuthController</servlet-name>
+        <servlet-class>ru.job4j.musicbox.servlets.AuthController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AuthController</servlet-name>
+        <url-pattern>/musicbox</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DashboardController</servlet-name>
+        <servlet-class>ru.job4j.musicbox.servlets.DashboardController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DashboardController</servlet-name>
+        <url-pattern>/musicbox/dashboard</url-pattern>
+    </servlet-mapping>
+
+    <!--<servlet>
         <servlet-name>UsersController</servlet-name>
         <servlet-class>ru.job4j.servlets.UsersController</servlet-class>
         <load-on-startup>1</load-on-startup>
@@ -75,6 +95,6 @@
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
         <url-pattern>*</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
 
 </web-app>
