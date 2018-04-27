@@ -1,5 +1,6 @@
 package ru.job4j.musicbox.dao;
 
+import org.apache.log4j.Logger;
 import ru.job4j.musicbox.models.Role;
 import ru.job4j.musicbox.repository.IRepositoryRole;
 
@@ -13,17 +14,14 @@ import java.util.List;
  */
 public class RoleDao implements IAbstractDao<Role>, IRepositoryRole {
 
-    private Connection conn;
-
-    public RoleDao() {
-        this.conn = DbConnection.INSTANCE.getConnection();
-    }
+    private static final Logger LOGGER = Logger.getLogger(RoleDao.class);
 
     @Override
     public Role getById(int id) {
         Role role = null;
 
-        try (PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM musicbox_roles WHERE id = ?")) {
+        try (Connection conn = DbConnection.INSTANCE.getConnection();
+             PreparedStatement pst = conn.prepareStatement("SELECT * FROM musicbox_roles WHERE id = ?")) {
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             rs.next();
@@ -33,7 +31,7 @@ public class RoleDao implements IAbstractDao<Role>, IRepositoryRole {
             role.setRole(rs.getString("role"));
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
         return role;
     }
@@ -42,7 +40,8 @@ public class RoleDao implements IAbstractDao<Role>, IRepositoryRole {
     public List<Role> getAll() {
         List<Role> roles = new ArrayList<>();
 
-        try (Statement st = this.conn.createStatement()) {
+        try (Connection conn = DbConnection.INSTANCE.getConnection();
+             Statement st = conn.createStatement()) {
             ResultSet rs = st.executeQuery("SELECT * FROM musicbox_roles");
             while (rs.next()) {
                 Role role = new Role();
@@ -51,29 +50,31 @@ public class RoleDao implements IAbstractDao<Role>, IRepositoryRole {
                 roles.add(role);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
         return roles;
     }
 
     @Override
     public void create(Role role) {
-        try (PreparedStatement pst = this.conn.prepareStatement("INSERT INTO musicbox_roles (role) VALUES (?)")) {
+        try (Connection conn = DbConnection.INSTANCE.getConnection();
+             PreparedStatement pst = conn.prepareStatement("INSERT INTO musicbox_roles (role) VALUES (?)")) {
             pst.setString(1, role.getRole());
             pst.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
     @Override
     public void update(Role role) {
-        try (PreparedStatement pst = this.conn.prepareStatement("UPDATE musicbox_roles SET role = ? WHERE id = ?")) {
+        try (Connection conn = DbConnection.INSTANCE.getConnection();
+             PreparedStatement pst = conn.prepareStatement("UPDATE musicbox_roles SET role = ? WHERE id = ?")) {
             pst.setString(1, role.getRole());
             pst.setInt(2, role.getId());
             pst.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -81,11 +82,12 @@ public class RoleDao implements IAbstractDao<Role>, IRepositoryRole {
     public void delete(Role role) {
         int id = role.getId();
         if (!this.roleIsUsed(id)) {
-            try (PreparedStatement pst = this.conn.prepareStatement("DELETE FROM musicbox_roles WHERE id = ?")) {
+            try (Connection conn = DbConnection.INSTANCE.getConnection();
+                 PreparedStatement pst = conn.prepareStatement("DELETE FROM musicbox_roles WHERE id = ?")) {
                 pst.setInt(1, id);
                 pst.executeUpdate();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
     }
@@ -94,7 +96,8 @@ public class RoleDao implements IAbstractDao<Role>, IRepositoryRole {
     @Override
     public List<String[]> getRoleRelatedUsers(Role role) {
         List<String[]> list = new ArrayList<>();
-        try (PreparedStatement pst = this.conn.prepareStatement("SELECT role, login, password, address FROM musicbox_roles "
+        try (Connection conn = DbConnection.INSTANCE.getConnection();
+             PreparedStatement pst = conn.prepareStatement("SELECT role, login, password, address FROM musicbox_roles "
                                                                     + "LEFT JOIN users ON roles.id=users.role_id "
                                                                     + "LEFT JOIN addresses ON users.address_id=addresses.id "
                                                                     + "WHERE roles.id = ?;")) {
@@ -110,7 +113,7 @@ public class RoleDao implements IAbstractDao<Role>, IRepositoryRole {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
         return list;
     }
@@ -123,14 +126,15 @@ public class RoleDao implements IAbstractDao<Role>, IRepositoryRole {
     private boolean roleIsUsed(int role) {
         boolean result = false;
 
-        try (PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM musicbox_users WHERE role_id = ?")) {
+        try (Connection conn = DbConnection.INSTANCE.getConnection();
+             PreparedStatement pst = conn.prepareStatement("SELECT * FROM musicbox_users WHERE role_id = ?")) {
             pst.setInt(1, role);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 result = true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
 
         return result;

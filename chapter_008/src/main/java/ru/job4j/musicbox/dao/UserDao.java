@@ -13,18 +13,15 @@ import java.util.List;
 
 public class UserDao implements IAbstractDao<User>, IRepositoryUser {
 
-    private Connection conn;
     private static final Logger LOGGER = Logger.getLogger(UserDao.class);
 
-    public UserDao() {
-        this.conn = DbConnection.INSTANCE.getConnection();
-    }
 
     @Override
     public User getById(int id) {
         User user = null;
 
-        try (PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM musicbox_users WHERE id = ?")) {
+        try (Connection conn = DbConnection.INSTANCE.getConnection();
+             PreparedStatement pst = conn.prepareStatement("SELECT * FROM musicbox_users WHERE id = ?")) {
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             rs.next();
@@ -41,7 +38,8 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
     public List<User> getAll() {
         List<User> users = new ArrayList<>();
 
-        try (Statement st = this.conn.createStatement()) {
+        try (Connection conn = DbConnection.INSTANCE.getConnection();
+             Statement st = conn.createStatement()) {
             ResultSet rs = st.executeQuery("SELECT * FROM musicbox_users");
             while (rs.next()) {
                 User user = this.gainUser(rs);
@@ -56,21 +54,21 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
     @Override
     public void create(User user) {
         PreparedStatement pst = null;
-        try {
+        try {Connection conn = DbConnection.INSTANCE.getConnection();
             Role role = user.getRole();
             Address address = user.getAddress();
             List<MusicType> music = user.getMusicTypes();
 
-            this.conn.setAutoCommit(false);
+            conn.setAutoCommit(false);
 
-            pst = this.conn.prepareStatement("INSERT INTO musicbox_addresses (address) VALUES (?)", new String[]{"id"});
+            pst = conn.prepareStatement("INSERT INTO musicbox_addresses (address) VALUES (?)", new String[]{"id"});
             pst.setString(1, address.getAddress());
             pst.executeUpdate();
             ResultSet addressKey = pst.getGeneratedKeys();
             addressKey.next();
             int addressId = addressKey.getInt("id");
 
-            pst = this.conn.prepareStatement("INSERT INTO musicbox_users VALUES "
+            pst = conn.prepareStatement("INSERT INTO musicbox_users VALUES "
                     + "(DEFAULT, ?, ?, ?, ?);", new String[] {"id"});
             pst.setString(1, user.getLogin());
             pst.setString(2, user.getPassword());
@@ -84,8 +82,8 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
 
             this.addUserMusic(userId, music);
 
-            this.conn.commit();
-            this.conn.setAutoCommit(true);
+            conn.commit();
+            conn.setAutoCommit(true);
             pst.close();
 
         } catch (SQLException e) {
@@ -96,7 +94,7 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
     @Override
     public void update(User user) {
         PreparedStatement pst = null;
-        try {
+        try {Connection conn = DbConnection.INSTANCE.getConnection();
             int id = user.getId();
             String login = user.getLogin();
             String password = user.getPassword();
@@ -104,14 +102,14 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
             Address address = user.getAddress();
             List<MusicType> music = user.getMusicTypes();
 
-            this.conn.setAutoCommit(false);
+            conn.setAutoCommit(false);
 
-            pst = this.conn.prepareStatement("UPDATE musicbox_addresses SET address = ? WHERE id = ?");
+            pst = conn.prepareStatement("UPDATE musicbox_addresses SET address = ? WHERE id = ?");
             pst.setString(1, address.getAddress());
             pst.setInt(2, address.getId());
             pst.executeUpdate();
 
-            pst = this.conn.prepareStatement("UPDATE musicbox_users "
+            pst = conn.prepareStatement("UPDATE musicbox_users "
                     + "SET login = ?, password = ?, role_id = ? WHERE id = ?");
             pst.setString(1, login);
             pst.setString(2, password);
@@ -119,14 +117,14 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
             pst.setInt(4, id);
             pst.executeUpdate();
 
-            pst = this.conn.prepareStatement("DELETE FROM musicbox_user_musictypes WHERE user_id = ?");
+            pst = conn.prepareStatement("DELETE FROM musicbox_user_musictypes WHERE user_id = ?");
             pst.setInt(1, id);
             pst.executeUpdate();
 
             this.addUserMusic(id, music);
 
-            this.conn.commit();
-            this.conn.setAutoCommit(true);
+            conn.commit();
+            conn.setAutoCommit(true);
             pst.close();
 
         } catch (SQLException e) {
@@ -138,16 +136,16 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
     public void delete(User user) {
         int id = user.getId();
         int addressId = user.getAddress().getId();
-        try {
-            PreparedStatement pst = this.conn.prepareStatement("DELETE FROM musicbox_user_musictypes WHERE user_id = ?");
+        try {Connection conn = DbConnection.INSTANCE.getConnection();
+            PreparedStatement pst = conn.prepareStatement("DELETE FROM musicbox_user_musictypes WHERE user_id = ?");
             pst.setInt(1, id);
             pst.executeUpdate();
 
-            pst = this.conn.prepareStatement("DELETE FROM musicbox_users WHERE id = ?");
+            pst = conn.prepareStatement("DELETE FROM musicbox_users WHERE id = ?");
             pst.setInt(1, id);
             pst.executeUpdate();
 
-            pst = this.conn.prepareStatement("DELETE FROM musicbox_addresses WHERE id = ?");
+            pst = conn.prepareStatement("DELETE FROM musicbox_addresses WHERE id = ?");
             pst.setInt(1, addressId);
             pst.executeUpdate();
 
@@ -160,7 +158,8 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
     @Override
     public List<User> getUsersByAddress(String address) {
         List<User> users = new ArrayList<>();
-        try (PreparedStatement pst = this.conn.prepareStatement("SELECT u.id id, login, password, role_id, address_id FROM musicbox_users u JOIN musicbox_addresses a ON u.address_id=a.id WHERE address LIKE ?")) {
+        try (Connection conn = DbConnection.INSTANCE.getConnection();
+             PreparedStatement pst = conn.prepareStatement("SELECT u.id id, login, password, role_id, address_id FROM musicbox_users u JOIN musicbox_addresses a ON u.address_id=a.id WHERE address LIKE ?")) {
             pst.setString(1, "%" + address + "%");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -176,7 +175,8 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
     @Override
     public List<User> getUsersByRole(Role role) {
         List<User> users = new ArrayList<>();
-        try (PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM musicbox_users u JOIN musicbox_roles r ON u.role_id=r.id WHERE r.id = ?")) {
+        try (Connection conn = DbConnection.INSTANCE.getConnection();
+             PreparedStatement pst = conn.prepareStatement("SELECT * FROM musicbox_users u JOIN musicbox_roles r ON u.role_id=r.id WHERE r.id = ?")) {
             pst.setInt(1, role.getId());
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -220,8 +220,8 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
      */
     private Role getUserRole(int roleId) {
         Role role = null;
-        try {
-            PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM musicbox_roles WHERE id = ?");
+        try {Connection conn = DbConnection.INSTANCE.getConnection();
+            PreparedStatement pst = conn.prepareStatement("SELECT * FROM musicbox_roles WHERE id = ?");
             pst.setInt(1, roleId);
             ResultSet rs = pst.executeQuery();
             rs.next();
@@ -244,8 +244,8 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
      */
     private Address getUserAddress(int addressId)  {
         Address address = null;
-        try {
-            PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM musicbox_addresses WHERE id = ?");
+        try {Connection conn = DbConnection.INSTANCE.getConnection();
+            PreparedStatement pst = conn.prepareStatement("SELECT * FROM musicbox_addresses WHERE id = ?");
             pst.setInt(1, addressId);
             ResultSet rs = pst.executeQuery();
             rs.next();
@@ -269,7 +269,8 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
     private List<MusicType> getUserMusic(int userId) {
         List<MusicType> list = new ArrayList<>();
         try {
-            PreparedStatement pst = this.conn.prepareStatement("SELECT id, musictype FROM musicbox_user_musictypes um JOIN musicbox_musictypes mt ON um.musictype_id = mt.id WHERE user_id = ?;");
+            Connection conn = DbConnection.INSTANCE.getConnection();
+            PreparedStatement pst = conn.prepareStatement("SELECT id, musictype FROM musicbox_user_musictypes um JOIN musicbox_musictypes mt ON um.musictype_id = mt.id WHERE user_id = ?;");
             pst.setInt(1, userId);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -292,8 +293,8 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
      */
     private void addUserMusic(int id, List<MusicType> music) {
         for (MusicType m : music) {
-            try {
-                PreparedStatement pst = this.conn.prepareStatement("INSERT INTO user_music VALUES (?, ?)");
+            try {Connection conn = DbConnection.INSTANCE.getConnection();
+                PreparedStatement pst = conn.prepareStatement("INSERT INTO user_music VALUES (?, ?)");
                 pst.setInt(1, id);
                 pst.setInt(2, m.getId());
                 pst.executeUpdate();
@@ -311,8 +312,8 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
      */
     public User isRegistered(String login, String password) {
         User user = null;
-        try {
-            PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM musicbox_users WHERE login = (?) AND password = (?)");
+        try {Connection conn = DbConnection.INSTANCE.getConnection();
+            PreparedStatement pst = conn.prepareStatement("SELECT * FROM musicbox_users WHERE login = (?) AND password = (?)");
             pst.setString(1, login);
             pst.setString(2, password);
             ResultSet rs = pst.executeQuery();

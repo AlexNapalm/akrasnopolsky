@@ -18,8 +18,7 @@ import java.util.Properties;
 public enum DbConnection {
 
     INSTANCE;
-
-    private Connection connection;
+    ComboPooledDataSource cpds;
     private static final Logger LOGGER = Logger.getLogger(DbConnection.class);
 
     DbConnection() {
@@ -29,16 +28,14 @@ public enum DbConnection {
             String username = properties.getProperty("user");
             String password = properties.getProperty("password");
 
-            ComboPooledDataSource cpds = new ComboPooledDataSource();
+            this.cpds = new ComboPooledDataSource();
             cpds.setDriverClass("org.postgresql.Driver");
             cpds.setJdbcUrl(url);
             cpds.setUser(username);
             cpds.setPassword(password);
             cpds.setMaxPoolSize(20);
 
-            this.connection = cpds.getConnection();
-
-        } catch (PropertyVetoException | SQLException e) {
+        } catch (PropertyVetoException e) {
             e.printStackTrace();
         }
     }
@@ -64,7 +61,7 @@ public enum DbConnection {
      * Gets connection.
      * @return connection.
      */
-    public Connection getConnection() {
-        return this.connection;
+    public Connection getConnection() throws SQLException {
+        return this.cpds.getConnection();
     }
 }
