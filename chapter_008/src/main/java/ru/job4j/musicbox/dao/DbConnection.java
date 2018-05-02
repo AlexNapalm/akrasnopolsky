@@ -64,4 +64,11 @@ public enum DbConnection {
     public Connection getConnection() throws SQLException {
         return this.cpds.getConnection();
     }
+
+    /**
+     * Closes the pool.
+     */
+    public void close() {
+        this.cpds.close();
+    }
 }

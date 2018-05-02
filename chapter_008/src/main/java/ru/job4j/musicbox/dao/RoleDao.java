@@ -139,4 +139,11 @@ public class RoleDao implements IAbstractDao<Role>, IRepositoryRole {
 
         return result;
     }
+
+    /**
+     * Closes connections pool.
+     */
+    public void poolClose() {
+        DbConnection.INSTANCE.close();
+    }
 }

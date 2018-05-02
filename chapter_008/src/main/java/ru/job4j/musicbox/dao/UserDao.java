@@ -323,4 +323,11 @@ public class UserDao implements IAbstractDao<User>, IRepositoryUser {
         }
         return user;
     }
+
+    /**
+     * Closes connections pool.
+     */
+    public void poolClose() {
+        DbConnection.INSTANCE.close();
+    }
 }

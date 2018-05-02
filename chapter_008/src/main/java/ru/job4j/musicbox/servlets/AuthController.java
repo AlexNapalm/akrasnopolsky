@@ -35,4 +35,10 @@ public class AuthController extends HttpServlet {
             doGet(req, resp);
         }
     }
+
+    @Override
+    public void destroy() {
+        userDao.poolClose();
+        super.destroy();
+    }
 }
