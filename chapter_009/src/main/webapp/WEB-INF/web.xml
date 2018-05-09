@@ -1,0 +1,11 @@
+<web-app>
+    <servlet>
+        <servlet-name>TodolistController</servlet-name>
+        <servlet-class>ru.job4j.todolist.controller.TodolistController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TodolistController</servlet-name>
+        <url-pattern>/list</url-pattern>
+    </servlet-mapping>
+</web-app>
