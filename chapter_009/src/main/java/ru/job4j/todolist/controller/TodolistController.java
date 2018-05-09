@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.List;
 
-public class TodolistController extends HttpServlet{
+public class TodolistController extends HttpServlet {
 
     ItemDao dao = new ItemDao();
 
