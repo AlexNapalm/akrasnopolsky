@@ -22,7 +22,7 @@ public class UserEditTest {
     public void setUp() {
         db.flushTable();
     }
-
+    /*
     @Test
     public void whenEditUserThenTableHasUpdatedUser() throws ServletException, IOException {
         UsersController controller = new UsersController();
@@ -61,4 +61,5 @@ public class UserEditTest {
         assertThat(users.get(1).getEmail(), is("alex@newemail.ru"));
         assertThat(users.get(1).getRole(), is("user"));
     }
+    */
 }

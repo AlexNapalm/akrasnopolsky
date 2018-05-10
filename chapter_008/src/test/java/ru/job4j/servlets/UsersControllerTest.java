@@ -24,7 +24,7 @@ public class UsersControllerTest {
     public void setUp() {
         db.flushTable();
     }
-
+    /*
     @Test
     public void whenAddUserThenTableHasUser() throws ServletException, IOException {
         UsersController controller = new UsersController();
@@ -58,5 +58,5 @@ public class UsersControllerTest {
         assertThat(users.get(1).getEmail(), is("alex@krasnopolsky.ru"));
         assertThat(users.get(1).getRole(), is("user"));
     }
-
+    */
 }
