@@ -21,20 +21,16 @@ public class TodolistController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         List<Item> items;
-
         if (req.getParameter("include_done").equals("true")) {
             items = dao.getAll();
         } else {
             items = dao.getUndone();
         }
-
         JSONArray jsonArray = new JSONArray();
         for (Item item : items) {
             DateFormat df = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT);
             String created = df.format(item.getCreated()).toString();
-
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", item.getId());
             jsonObject.put("desc", item.getDesc());
@@ -42,20 +38,16 @@ public class TodolistController extends HttpServlet {
             jsonObject.put("done", item.isDone());
             jsonArray.add(jsonObject);
         }
-
         Writer writer = resp.getWriter();
         writer.append(jsonArray.toJSONString());
-
         writer.flush();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String description = req.getParameter("item_description");
         String id = req.getParameter("item_id");
         String done = req.getParameter("item_done");
-
         if (description != null) {
             Item item = new Item();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -63,7 +55,6 @@ public class TodolistController extends HttpServlet {
             item.setCreated(timestamp);
             dao.addOrUpdate(item);
         }
-
         if (id != null && done != null) {
             dao.toggleDone(Integer.valueOf(id), Boolean.valueOf(done));
         }

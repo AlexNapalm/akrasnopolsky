@@ -3,17 +3,33 @@ package ru.job4j.todolist.dbmanager;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import ru.job4j.models.Item;
 
 import java.util.List;
+import java.util.function.Function;
 
 public enum  DbManager implements IDbManager {
     INSTANCE;
 
     private static final Logger LOGGER = Logger.getLogger(DbManager.class);
     private SessionFactory factory = new Configuration().configure().buildSessionFactory();
+
+    private <T> T tx(final Function<Session, T> command) {
+        final Session session = factory.openSession();
+        final Transaction tx = session.beginTransaction();
+        try {
+            return command.apply(session);
+        } catch (final Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            tx.commit();
+            session.close();
+        }
+    }
 
     public void addOrUpdate(Item item) {
         try (Session session = this.factory.openSession()) {
@@ -32,23 +48,15 @@ public enum  DbManager implements IDbManager {
     }
 
     public List<Item> getAll() {
-        List<Item> result = null;
-        try (Session session = this.factory.openSession()) {
-            session.getTransaction();
-            result = session.createQuery("from Item").list();
-
-        }
-        return result;
+        return this.tx(
+                session -> session.createQuery("from Item").list()
+        );
     }
 
     public List<Item> getUndone() {
-        List<Item> result = null;
-        try (Session session = this.factory.openSession()) {
-            session.getTransaction();
-            Query query = session.createQuery("from Item where done = false");
-            result = query.list();
-        }
-        return result;
+        return this.tx(
+                session -> session.createQuery("from Item where done = false").list()
+        );
     }
 
     public void toggleDone(int id, boolean done) {

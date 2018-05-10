@@ -3,12 +3,11 @@ package ru.job4j.todolist.dao;
 import ru.job4j.models.Item;
 import ru.job4j.todolist.dbmanager.DbManager;
 import ru.job4j.todolist.dbmanager.IDbManager;
-import ru.job4j.todolist.dbmanager.LambdaDecorator;
 import java.util.List;
 
 public class ItemDao {
 
-    IDbManager db = new LambdaDecorator(DbManager.INSTANCE);
+    IDbManager db = DbManager.INSTANCE;
 
     public void addOrUpdate(Item item) {
         this.db.addOrUpdate(item);
