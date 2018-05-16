@@ -1,17 +1,47 @@
 package ru.job4j.models;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+@Entity
+@Table(name = "ads_cs")
 public class Ad {
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id")
     private  int id;
+
+    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "carbrand_id")
     private CarBrand carbrand;
+
+    @Column(name = "model")
     private String model;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "manufacture_year")
     private int year;
+
+    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "cartype_id")
     private CarType cartype;
+
+    @Column(name = "price")
     private int price;
+
+    @Column(name = "publish_date")
     private Timestamp created;
+
+    @Column(name = "sold")
     private boolean sold;
+
+    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Ad() {

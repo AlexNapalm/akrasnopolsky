@@ -1,7 +1,18 @@
 package ru.job4j.models;
 
+import javax.persistence.*;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+@Entity
+@Table(name = "carbrands_cs")
 public class CarBrand {
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "brand")
     private String name;
 
     public CarBrand() {
