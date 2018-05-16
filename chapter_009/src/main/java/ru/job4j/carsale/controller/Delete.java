@@ -10,12 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class Delete extends HttpServlet {
-    AdDao adDao;
-
-    @Override
-    public void init() throws ServletException {
-        adDao = AdDao.getInstance();
-    }
+    private final AdDao adDao = new AdDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

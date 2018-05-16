@@ -11,14 +11,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class List extends HttpServlet {
-
-    AdDao adDao;
+    private final AdDao adDao = new AdDao();
     private String uploadPath;
 
     @Override
     public void init() throws ServletException {
         uploadPath = getServletContext().getInitParameter("upload-directory");
-        adDao = AdDao.getInstance();
     }
 
     @Override

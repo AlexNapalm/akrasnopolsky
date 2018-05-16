@@ -10,19 +10,11 @@ import java.util.List;
 
 public class CarBrandDao implements IDao<CarBrand> {
 
-    private static final CarBrandDao INSTANCE = new CarBrandDao();
-    private final SessionFactory factory = HibernateUtil.getSessionFactory();
-
-    private CarBrandDao() {
-    }
-
-    public static CarBrandDao getInstance() {
-        return INSTANCE;
-    }
+    private HibernateUtil hibernateUtil = HibernateUtil.INSTANCE;
 
     @Override
     public CarBrand getById(int id) {
-        try (Session session = factory.openSession()) {
+        try (Session session = hibernateUtil.getSessionFactory().openSession()) {
             CarBrand brand = session.get(CarBrand.class, id);
             return brand;
         }
@@ -30,7 +22,7 @@ public class CarBrandDao implements IDao<CarBrand> {
 
     @Override
     public List<CarBrand> getAll() {
-        try (Session session = factory.openSession();) {
+        try (Session session = hibernateUtil.getSessionFactory().openSession()) {
             Query query = session.createQuery("from CarBrand");
             return query.list();
         }
@@ -38,21 +30,18 @@ public class CarBrandDao implements IDao<CarBrand> {
 
     @Override
     public void create(CarBrand model) {
-
     }
 
     @Override
     public void update(CarBrand model) {
-
     }
 
     @Override
     public void delete(CarBrand model) {
-
     }
 
     @Override
     public void close() {
-        this.factory.close();
+        this.hibernateUtil.closeConnection();
     }
 }

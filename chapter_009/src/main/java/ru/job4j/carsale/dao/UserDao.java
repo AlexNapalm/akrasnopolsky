@@ -1,29 +1,18 @@
 package ru.job4j.carsale.dao;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import ru.job4j.carsale.service.HibernateUtil;
 import ru.job4j.models.User;
 
 import java.util.List;
 
-
 public class UserDao implements IDao<User> {
-
-    private static final UserDao INSTANCE = new UserDao();
-    private final SessionFactory factory = HibernateUtil.getSessionFactory();
-
-    public UserDao() {
-    }
-
-    public static UserDao getInstance() {
-        return INSTANCE;
-    }
+    private HibernateUtil hibernateUtil = HibernateUtil.INSTANCE;
 
     @Override
     public User getById(int id) {
-        try (Session session = factory.openSession()) {
+        try (Session session = hibernateUtil.getSessionFactory().openSession()) {
             User user = session.get(User.class, id);
             return user;
         }
@@ -54,7 +43,7 @@ public class UserDao implements IDao<User> {
      */
     public User isRegistered(String login, String password) {
         User user = null;
-        try (Session session = factory.openSession()) {
+        try (Session session = hibernateUtil.getSessionFactory().openSession()) {
             Query query = session.createQuery("from User where login=:login and password=:password");
             query.setParameter("login", login);
             query.setParameter("password", password);
@@ -68,6 +57,6 @@ public class UserDao implements IDao<User> {
 
     @Override
     public void close() {
-        this.factory.close();
+        this.hibernateUtil.closeConnection();
     }
 }

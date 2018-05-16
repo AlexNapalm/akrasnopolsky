@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class ManageAdFilter implements Filter {
+    private final AdDao adDao = new AdDao();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -22,7 +23,7 @@ public class ManageAdFilter implements Filter {
         Integer userId = (Integer) session.getAttribute("userId");
 
         int id = Integer.valueOf(request.getParameter("id"));
-        Ad ad = AdDao.getInstance().getById(id);
+        Ad ad = adDao.getById(id);
 
         if (userId == ad.getUser().getId()) {
             filterChain.doFilter(servletRequest, servletResponse);
@@ -33,5 +34,6 @@ public class ManageAdFilter implements Filter {
 
     @Override
     public void destroy() {
+        adDao.close();
     }
 }

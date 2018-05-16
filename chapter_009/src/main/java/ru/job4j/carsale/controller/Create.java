@@ -20,25 +20,19 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class Create extends HttpServlet {
-
-    private String uploadPath;
-    private int maxFileSize;
-    AdDao adDao;
-    CarTypeDao carTypeDao;
-    CarBrandDao carBrandDao;
+    private final String directory = getServletContext().getInitParameter("upload-directory");
+    private final String uploadPath = getServletContext().getRealPath("") + File.separator + directory;
+    private final int maxFileSize = Integer.valueOf(getServletContext().getInitParameter("max-file-size"));
+    private final AdDao adDao = new AdDao();
+    private final CarTypeDao carTypeDao = new CarTypeDao();
+    private final CarBrandDao carBrandDao = new CarBrandDao();
 
     @Override
     public void init() throws ServletException {
-        String directory = getServletContext().getInitParameter("upload-directory");
-        uploadPath = getServletContext().getRealPath("") + File.separator + directory;
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
-        maxFileSize = Integer.valueOf(getServletContext().getInitParameter("max-file-size"));
-        adDao = AdDao.getInstance();
-        carBrandDao = CarBrandDao.getInstance();
-        carTypeDao = CarTypeDao.getInstance();
     }
 
     @Override
