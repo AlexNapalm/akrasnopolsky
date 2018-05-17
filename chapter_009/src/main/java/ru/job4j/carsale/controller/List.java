@@ -1,6 +1,7 @@
 package ru.job4j.carsale.controller;
 
 import ru.job4j.carsale.dao.AdDao;
+import ru.job4j.carsale.dao.CarBrandDao;
 import ru.job4j.models.Ad;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import java.io.IOException;
 
 public class List extends HttpServlet {
     private final AdDao adDao = new AdDao();
+    private final CarBrandDao carBrandDao = new CarBrandDao();
     private String uploadPath;
 
     @Override
@@ -21,9 +23,12 @@ public class List extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String today = req.getParameter("today");
+        String carbrand = req.getParameter("carbrand");
         req.setAttribute("path", req.getContextPath());
         req.setAttribute("uploadPath", req.getContextPath() + File.separator + uploadPath + File.separator);
-        java.util.List<Ad> list = adDao.getAll();
+        req.setAttribute("carbrands", carBrandDao.getAll());
+        java.util.List<Ad> list = adDao.getAllFiltered(today, carbrand);
         req.setAttribute("ads", list);
         req.getRequestDispatcher("WEB-INF/view/list.jsp").forward(req, resp);
     }
@@ -31,5 +36,6 @@ public class List extends HttpServlet {
     @Override
     public void destroy() {
         adDao.close();
+        carBrandDao.close();
     }
 }
