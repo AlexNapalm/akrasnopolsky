@@ -2,6 +2,7 @@ package ru.job4j.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -146,5 +147,31 @@ public class Ad {
         sb.append(", user=").append(user);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Ad ad = (Ad) o;
+        return id == ad.id
+                && year == ad.year
+                && price == ad.price
+                && sold == ad.sold
+                && Objects.equals(carbrand, ad.carbrand)
+                && Objects.equals(model, ad.model)
+                && Objects.equals(description, ad.description)
+                && Objects.equals(cartype, ad.cartype)
+                && Objects.equals(created, ad.created)
+                && Objects.equals(user, ad.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, carbrand, model, description, year, cartype, price, created, sold, user);
     }
 }

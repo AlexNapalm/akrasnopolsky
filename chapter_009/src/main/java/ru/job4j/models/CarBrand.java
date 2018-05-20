@@ -2,6 +2,8 @@ package ru.job4j.models;
 
 import javax.persistence.*;
 
+import java.util.Objects;
+
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -45,5 +47,23 @@ public class CarBrand {
         sb.append(", name='").append(name).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CarBrand carBrand = (CarBrand) o;
+        return id == carBrand.id
+                && Objects.equals(name, carBrand.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

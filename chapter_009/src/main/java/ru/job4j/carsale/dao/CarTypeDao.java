@@ -27,15 +27,20 @@ public class CarTypeDao implements IDao<CarType> {
     }
 
     @Override
-    public void create(CarType model) {
+    public void create(CarType carType) {
+        try (Session session = hibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            session.save(carType);
+            session.getTransaction().commit();
+        }
     }
 
     @Override
-    public void update(CarType model) {
+    public void update(CarType carType) {
     }
 
     @Override
-    public void delete(CarType model) {
+    public void delete(CarType carType) {
     }
 
     @Override

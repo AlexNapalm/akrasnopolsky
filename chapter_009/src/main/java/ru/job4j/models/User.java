@@ -2,6 +2,8 @@ package ru.job4j.models;
 
 import javax.persistence.*;
 
+import java.util.Objects;
+
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -81,5 +83,26 @@ public class User {
         sb.append(", phone=").append(phone);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return id == user.id
+                && phone == user.phone
+                && Objects.equals(name, user.name)
+                && Objects.equals(login, user.login)
+                && Objects.equals(password, user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, login, password, phone);
     }
 }

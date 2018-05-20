@@ -24,15 +24,20 @@ public class UserDao implements IDao<User> {
     }
 
     @Override
-    public void create(User entity) {
+    public void create(User user) {
+        try (Session session = hibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            session.save(user);
+            session.getTransaction().commit();
+        }
     }
 
     @Override
-    public void update(User entity) {
+    public void update(User user) {
     }
 
     @Override
-    public void delete(User entity) {
+    public void delete(User user) {
     }
 
     /**
@@ -42,17 +47,12 @@ public class UserDao implements IDao<User> {
      * @return user.
      */
     public User isRegistered(String login, String password) {
-        User user = null;
         try (Session session = hibernateUtil.getSessionFactory().openSession()) {
             Query query = session.createQuery("from User where login=:login and password=:password");
             query.setParameter("login", login);
             query.setParameter("password", password);
-            List<User> users = query.list();
-            if (users.size() != 0) {
-                user = users.get(0);
-            }
+            return (User) query.uniqueResult();
         }
-        return user;
     }
 
     @Override

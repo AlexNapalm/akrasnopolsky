@@ -29,15 +29,20 @@ public class CarBrandDao implements IDao<CarBrand> {
     }
 
     @Override
-    public void create(CarBrand model) {
+    public void create(CarBrand carBrand) {
+        try (Session session = hibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            session.save(carBrand);
+            session.getTransaction().commit();
+        }
     }
 
     @Override
-    public void update(CarBrand model) {
+    public void update(CarBrand carBrand) {
     }
 
     @Override
-    public void delete(CarBrand model) {
+    public void delete(CarBrand carBrand) {
     }
 
     @Override
