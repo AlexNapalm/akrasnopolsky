@@ -7,11 +7,22 @@
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--<bean id="memory" class="ru.job4j.ioc.examples.MemoryStorage" />
+    <bean id="memory" class="ru.job4j.ioc.examples.MemoryStorage" />
     <bean id="storage" class="ru.job4j.ioc.examples.UserStorage">
         <constructor-arg name="storage" ref="memory" />
-    </bean>-->
+    </bean>
 
     <context:component-scan base-package="ru.job4j.ioc.examples" />
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/java_a_to_z" />
+        <property name="username" value="postgres" />
+        <property name="password" value="postgres" />
+    </bean>
+    <bean id="jdbcStorage" class="ru.job4j.ioc.storage.JdbcStorage">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="memoryStorage" class="ru.job4j.ioc.storage.MemoryStorage" />
 
 </beans>
