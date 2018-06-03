@@ -12,7 +12,7 @@
         <constructor-arg name="storage" ref="memory" />
     </bean>
 
-    <context:component-scan base-package="ru.job4j.ioc.examples" />
+    <context:component-scan base-package="ru.job4j" />
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
@@ -24,5 +24,40 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
     <bean id="memoryStorage" class="ru.job4j.ioc.storage.MemoryStorage" />
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mappingResources">
+            <list>
+                <value>models/User.hbm.xml</value>
+                <value>models/CarBrand.hbm.xml</value>
+                <value>models/CarType.hbm.xml</value>
+                <value>models/Ad.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <value>hibernate.dialect = org.hibernate.dialect.PostgreSQL94Dialect</value>
+        </property>
+    </bean>
+
+    <bean id="AdDao" class="ru.job4j.ioc.carsale.dao.AdDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="CarBrandDao" class="ru.job4j.ioc.carsale.dao.CarBrandDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="CarTypeDao" class="ru.job4j.ioc.carsale.dao.CarTypeDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="UserDao" class="ru.job4j.ioc.carsale.dao.UserDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="200000" />
+    </bean>
 
 </beans>
