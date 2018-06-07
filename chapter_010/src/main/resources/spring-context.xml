@@ -2,10 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context.xsd">
+                           http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <bean id="memory" class="ru.job4j.ioc.examples.MemoryStorage" />
     <bean id="storage" class="ru.job4j.ioc.examples.UserStorage">
@@ -20,6 +21,22 @@
         <property name="username" value="postgres" />
         <property name="password" value="postgres" />
     </bean>
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="showSql" value="true"/>
+        <property name="generateDdl" value="true"/>
+        <property name="database" value="POSTGRESQL"/>
+    </bean>
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+        <property name="packagesToScan" value="ru.job4j."/>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <jpa:repositories base-package="ru.job4j" />
+
     <bean id="jdbcStorage" class="ru.job4j.ioc.storage.JdbcStorage">
         <property name="dataSource" ref="dataSource" />
     </bean>
@@ -40,21 +57,10 @@
         </property>
     </bean>
 
-    <bean id="AdDao" class="ru.job4j.ioc.carsale.dao.AdDao">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-
-    <bean id="CarBrandDao" class="ru.job4j.ioc.carsale.dao.CarBrandDao">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-
-    <bean id="CarTypeDao" class="ru.job4j.ioc.carsale.dao.CarTypeDao">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-
-    <bean id="UserDao" class="ru.job4j.ioc.carsale.dao.UserDao">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+    <bean id="AdDao" class="ru.job4j.ioc.carsale.dao.AdDao" />
+    <bean id="CarBrandDao" class="ru.job4j.ioc.carsale.dao.CarBrandDao" />
+    <bean id="CarTypeDao" class="ru.job4j.ioc.carsale.dao.CarTypeDao" />
+    <bean id="UserDao" class="ru.job4j.ioc.carsale.dao.UserDao" />
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="200000" />

@@ -1,6 +1,7 @@
 package ru.job4j.ioc.carsale.filter;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.job4j.ioc.carsale.dao.AdDao;
 import ru.job4j.ioc.models.Ad;
 
@@ -11,7 +12,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class ManageAdFilter implements Filter {
-    private final AdDao adDao = new AdDao();
+    @Autowired
+    private AdDao adDao;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

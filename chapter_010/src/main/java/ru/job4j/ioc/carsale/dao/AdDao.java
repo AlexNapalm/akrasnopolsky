@@ -1,106 +1,53 @@
 package ru.job4j.ioc.carsale.dao;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.job4j.ioc.carsale.repository.AdDataRepository;
 import ru.job4j.ioc.models.Ad;
 
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class AdDao implements IDao<Ad> {
-    private SessionFactory factory;
 
-    public void setSessionFactory(SessionFactory factory) {
-        this.factory = factory;
-    }
+    @Autowired
+    AdDataRepository repository;
 
     @Override
     public Ad getById(int id) {
-        try (Session session = this.factory.openSession()) {
-            return session.get(Ad.class, id);
-        }
+        return repository.findById(id).get();
     }
 
     @Override
     public List<Ad> getAll() {
-        try (Session session = this.factory.openSession()) {
-            Query query = session.createQuery("from Ad");
-            return query.list();
-        }
+        return (List<Ad>) this.repository.findAll();
     }
 
     @Override
     public void create(Ad ad) {
-        try (Session session = this.factory.openSession()) {
-            session.beginTransaction();
-            session.save(ad);
-            session.getTransaction().commit();
-        }
+        this.repository.save(ad);
     }
 
     @Override
     public void update(Ad ad) {
-        try (Session session = this.factory.openSession()) {
-            session.beginTransaction();
-            session.update(ad);
-            session.getTransaction().commit();
-        }
+        this.repository.save(ad);
     }
 
     @Override
     public void delete(Ad ad) {
-        try (Session session = this.factory.openSession()) {
-            session.beginTransaction();
-            session.delete(ad);
-            session.getTransaction().commit();
-        }
+        this.repository.delete(ad);
     }
 
     public List<Ad> getAllFiltered(String today, String carbrand) {
-        try (Session session = this.factory.openSession()) {
-            EntityManager em = session.getEntityManagerFactory().createEntityManager();
-            em.getTransaction().begin();
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<Ad> criteria = cb.createQuery(Ad.class);
-            Root<Ad> root = criteria.from(Ad.class);
-            criteria.select(root);
-            List<Predicate> predicates = new ArrayList<>();
-            if (today != null) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                try {
-                    long morning = sdf.parse(sdf.format(new Date())).getTime();
-                    predicates.add(cb.greaterThanOrEqualTo(root.get("created"), new Timestamp(morning)));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (carbrand != null) {
-                try {
-                    predicates.add(cb.equal(root.get("carbrand").get("id"), Integer.valueOf(carbrand)));
-                } catch (NumberFormatException nfe) {
-                    nfe.printStackTrace();
-                }
-            }
-            if (!predicates.isEmpty()) {
-                criteria.where(predicates.toArray(new Predicate[0]));
-            }
-            em.getTransaction().commit();
-            return em.createQuery(criteria).getResultList();
+        List<Ad> result;
+
+        if (today == null && carbrand == null) {
+            result = (List<Ad>) this.repository.findAll();
+        } else {
+            result = this.repository.findByCarbrandNameAndCreated(carbrand, today);
         }
+        return result;
     }
 
     @Override
     public void close() {
-        this.factory.close();
     }
 }

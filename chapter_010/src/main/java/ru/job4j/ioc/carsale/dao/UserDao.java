@@ -1,47 +1,38 @@
 package ru.job4j.ioc.carsale.dao;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.job4j.ioc.carsale.repository.UserDataRepository;
 import ru.job4j.ioc.models.User;
 
 import java.util.List;
 
 public class UserDao implements IDao<User> {
-    private SessionFactory factory;
-
-    public void setSessionFactory(SessionFactory factory) {
-        this.factory = factory;
-    }
+    @Autowired
+    UserDataRepository repository;
 
     @Override
     public User getById(int id) {
-        try (Session session = this.factory.openSession()) {
-            User user = session.get(User.class, id);
-            return user;
-        }
+        return this.repository.findById(id).get();
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        return (List<User>) this.repository.findAll();
     }
 
     @Override
     public void create(User user) {
-        try (Session session = this.factory.openSession()) {
-            session.beginTransaction();
-            session.save(user);
-            session.getTransaction().commit();
-        }
+        this.repository.save(user);
     }
 
     @Override
     public void update(User user) {
+        this.repository.save(user);
     }
 
     @Override
     public void delete(User user) {
+        this.repository.delete(user);
     }
 
     /**
@@ -51,16 +42,10 @@ public class UserDao implements IDao<User> {
      * @return user.
      */
     public User isRegistered(String login, String password) {
-        try (Session session = this.factory.openSession()) {
-            Query query = session.createQuery("from User where login=:login and password=:password");
-            query.setParameter("login", login);
-            query.setParameter("password", password);
-            return (User) query.uniqueResult();
-        }
+        return this.repository.findByLoginAndPassword(login, password);
     }
 
     @Override
     public void close() {
-        this.factory.close();
     }
 }

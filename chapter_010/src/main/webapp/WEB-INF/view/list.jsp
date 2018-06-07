@@ -57,7 +57,7 @@
             Продано! <br/>
         </c:if>
         последнее обновление: <fmt:formatDate value="${ad.created}" pattern="d MMMM yyyy, H:mm:ss"/> <br/>
-        марка: ${ad.carbrand.brand} <br/>
+        марка: ${ad.carbrand.name} <br/>
         модель: ${ad.model} <br/>
         год: ${ad.year} <br/>
         кузов: ${ad.cartype.type} <br/>
