@@ -6,14 +6,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/data/jpa
+                           http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <bean id="memory" class="ru.job4j.ioc.examples.MemoryStorage" />
+    <!--<bean id="memory" class="ru.job4j.ioc.examples.MemoryStorage" />
     <bean id="storage" class="ru.job4j.ioc.examples.UserStorage">
         <constructor-arg name="storage" ref="memory" />
-    </bean>
+    </bean>-->
 
-    <context:component-scan base-package="ru.job4j" />
+    <context:component-scan base-package="ru.job4j.ioc.*" />
+    <jpa:repositories base-package="ru.job4j.ioc.*" />
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
@@ -29,13 +32,11 @@
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
-        <property name="packagesToScan" value="ru.job4j."/>
+        <property name="packagesToScan" value="ru.job4j.*"/>
     </bean>
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
-
-    <jpa:repositories base-package="ru.job4j" />
 
     <bean id="jdbcStorage" class="ru.job4j.ioc.storage.JdbcStorage">
         <property name="dataSource" ref="dataSource" />
@@ -57,10 +58,10 @@
         </property>
     </bean>
 
-    <bean id="AdDao" class="ru.job4j.ioc.carsale.dao.AdDao" />
-    <bean id="CarBrandDao" class="ru.job4j.ioc.carsale.dao.CarBrandDao" />
-    <bean id="CarTypeDao" class="ru.job4j.ioc.carsale.dao.CarTypeDao" />
-    <bean id="UserDao" class="ru.job4j.ioc.carsale.dao.UserDao" />
+    <bean id="adService" class="ru.job4j.ioc.carsale.service.AdServiceImpl" />
+    <bean id="carBrandService" class="ru.job4j.ioc.carsale.service.CarBrandServiceImpl" />
+    <bean id="carTypeService" class="ru.job4j.ioc.carsale.service.CarTypeServiceImpl" />
+    <bean id="userService" class="ru.job4j.ioc.carsale.service.UserServiceImpl"/>
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="200000" />

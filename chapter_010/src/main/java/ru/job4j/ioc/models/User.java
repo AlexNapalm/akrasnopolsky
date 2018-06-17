@@ -1,7 +1,9 @@
 package ru.job4j.ioc.models;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -24,6 +26,17 @@ public class User {
 
     @Column(name = "phone")
     private long phone;
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "users_roles_cs",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    )
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -72,16 +85,20 @@ public class User {
         this.phone = phone;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("User{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", login='").append(login).append('\'');
-        sb.append(", password='").append(password).append('\'');
-        sb.append(", phone=").append(phone);
-        sb.append('}');
-        return sb.toString();
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -95,13 +112,15 @@ public class User {
         User user = (User) o;
         return id == user.id
                 && phone == user.phone
+                && enabled == user.enabled
                 && Objects.equals(name, user.name)
                 && Objects.equals(login, user.login)
-                && Objects.equals(password, user.password);
+                && Objects.equals(password, user.password)
+                && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, password, phone);
+        return Objects.hash(id, name, login, password, phone, enabled, roles);
     }
 }

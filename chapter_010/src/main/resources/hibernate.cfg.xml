@@ -12,5 +12,6 @@
         <mapping class="ru.job4j.ioc.models.CarType"/>
         <mapping class="ru.job4j.ioc.models.CarBrand"/>
         <mapping class="ru.job4j.ioc.models.Ad"/>
+        <mapping class="ru.job4j.ioc.models.Role"/>
     </session-factory>
 </hibernate-configuration>

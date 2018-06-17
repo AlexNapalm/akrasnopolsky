@@ -2,7 +2,7 @@ package ru.job4j.ioc.carsale.filter;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.job4j.ioc.carsale.dao.AdDao;
+import ru.job4j.ioc.carsale.service.AdService;
 import ru.job4j.ioc.models.Ad;
 
 import javax.servlet.*;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class ManageAdFilter implements Filter {
     @Autowired
-    private AdDao adDao;
+    private AdService adService;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -26,17 +26,12 @@ public class ManageAdFilter implements Filter {
         Integer userId = (Integer) session.getAttribute("userId");
 
         int id = Integer.valueOf(request.getParameter("id"));
-        Ad ad = adDao.getById(id);
+        Ad ad = adService.getById(id);
 
         if (userId == ad.getUser().getId()) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             ((HttpServletResponse) servletResponse).sendRedirect(String.format("%s/list", request.getContextPath()));
         }
-    }
-
-    @Override
-    public void destroy() {
-        adDao.close();
     }
 }

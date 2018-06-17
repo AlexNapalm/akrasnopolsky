@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import ru.job4j.ioc.carsale.dao.AdDao;
-import ru.job4j.ioc.carsale.dao.CarBrandDao;
-import ru.job4j.ioc.carsale.dao.CarTypeDao;
+import ru.job4j.ioc.carsale.service.AdService;
+import ru.job4j.ioc.carsale.service.CarBrandService;
+import ru.job4j.ioc.carsale.service.CarTypeService;
 import ru.job4j.ioc.models.Ad;
 import ru.job4j.ioc.models.CarBrand;
 import ru.job4j.ioc.models.CarType;
@@ -31,21 +31,18 @@ import java.util.Date;
 public class Create {
 
     @Autowired
-    private AdDao adDao;
-
+    private AdService adService;
     @Autowired
-    private CarBrandDao carBrandDao;
-
+    private CarBrandService carBrandService;
     @Autowired
-    private CarTypeDao carTypeDao;
-
+    private CarTypeService carTypeService;
     @Autowired
     private ServletContext servletContext;
 
     @GetMapping
     public String getCreateForm(Model model) {
-        model.addAttribute("brands", carBrandDao.getAll());
-        model.addAttribute("carcases", carTypeDao.getAll());
+        model.addAttribute("brands", carBrandService.getAll());
+        model.addAttribute("carcases", carTypeService.getAll());
         return "create";
     }
 
@@ -61,7 +58,7 @@ public class Create {
         ad.setUser(new User(userId));
         ad.setCreated(new Timestamp(new Date().getTime()));
         ad.setSold(false);
-        adDao.create(ad);
+        adService.create(ad);
 
         if (!file.isEmpty()) {
             try {

@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.job4j.ioc.carsale.dao.AdDao;
-import ru.job4j.ioc.carsale.dao.CarBrandDao;
+import ru.job4j.ioc.carsale.service.AdService;
+import ru.job4j.ioc.carsale.service.CarBrandService;
 import ru.job4j.ioc.models.Ad;
 
 @Controller
@@ -15,17 +15,17 @@ import ru.job4j.ioc.models.Ad;
 public class List {
 
     @Autowired
-    private AdDao adDao;
+    AdService adService;
 
     @Autowired
-    private CarBrandDao carBrandDao;
+    CarBrandService carBrandService;
 
     @GetMapping
     public String getAll(Model model,
                          @RequestParam(required = false) String today,
                          @RequestParam(required = false) String brand) {
-        model.addAttribute("brands", carBrandDao.getAll());
-        java.util.List<Ad> list = adDao.getAllFiltered(today, brand);
+        model.addAttribute("brands", carBrandService.getAll());
+        java.util.List<Ad> list = adService.getAllFiltered(today, brand);
         model.addAttribute("ads", list);
         return "list";
     }

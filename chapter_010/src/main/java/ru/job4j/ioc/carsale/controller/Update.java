@@ -6,9 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.job4j.ioc.carsale.dao.AdDao;
-import ru.job4j.ioc.carsale.dao.CarBrandDao;
-import ru.job4j.ioc.carsale.dao.CarTypeDao;
+import ru.job4j.ioc.carsale.service.AdService;
+import ru.job4j.ioc.carsale.service.CarBrandService;
+import ru.job4j.ioc.carsale.service.CarTypeService;
 import ru.job4j.ioc.models.Ad;
 import ru.job4j.ioc.models.CarBrand;
 import ru.job4j.ioc.models.CarType;
@@ -27,23 +27,23 @@ import java.util.Date;
 public class Update {
 
     @Autowired
-    private AdDao adDao;
+    AdService adService;
 
     @Autowired
-    private CarBrandDao carBrandDao;
+    CarBrandService carBrandService;
 
     @Autowired
-    private CarTypeDao carTypeDao;
+    CarTypeService carTypeService;
 
     @Autowired
-    private ServletContext servletContext;
+    ServletContext servletContext;
 
     @GetMapping
     @RequestMapping(value = "/{id}")
     public String getUpdateForm(Model model, @PathVariable("id") int id) {
-        model.addAttribute("brands", carBrandDao.getAll());
-        model.addAttribute("cartypes", carTypeDao.getAll());
-        model.addAttribute("ad", adDao.getById(id));
+        model.addAttribute("brands", carBrandService.getAll());
+        model.addAttribute("cartypes", carTypeService.getAll());
+        model.addAttribute("ad", adService.getById(id));
         return "update";
     }
 
@@ -57,7 +57,7 @@ public class Update {
         ad.setCartype(new CarType(carcaseId));
         ad.setUser(new User(userId));
         ad.setCreated(new Timestamp(new Date().getTime()));
-        adDao.update(ad);
+        adService.update(ad);
 
         if (!file.isEmpty()) {
             try {

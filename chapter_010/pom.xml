@@ -91,6 +91,15 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>2.0.7.RELEASE</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>5.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>5.0.5.RELEASE</version>
+		</dependency>
 	</dependencies>
 </project>
