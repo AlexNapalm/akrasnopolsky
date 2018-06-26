@@ -29,11 +29,19 @@
             <csrf disabled="true"/>
         </http>
 
+
     <authentication-manager id="detail-service-auth">
-        <authentication-provider user-service-ref="userDetailsService" >
+        <authentication-provider ref="authProvider" >
         </authentication-provider>
     </authentication-manager>
 
+
+    <b:bean id="authProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <b:property name="userDetailsService" ref="userDetailsService" />
+        <b:property name="passwordEncoder" ref="passwordEncoder" />
+    </b:bean>
+
+    <b:bean id ="passwordEncoder" class = "org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
     <b:bean id="userService" class="ru.job4j.ioc.carsale.service.UserServiceImpl"/>
     <b:bean id="userDetailsService" class="ru.job4j.ioc.carsale.service.UserDetailsServiceImpl">
         <b:constructor-arg name="userService" ref="userService"/>

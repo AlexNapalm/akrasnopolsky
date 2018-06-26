@@ -27,16 +27,14 @@ public class User {
     @Column(name = "phone")
     private long phone;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles_cs",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles = new HashSet<>();
+
     @Column(name = "enabled")
     private boolean enabled;
-
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "users_roles_cs",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")}
-    )
-    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -93,6 +91,7 @@ public class User {
         this.enabled = enabled;
     }
 
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -122,5 +121,19 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, login, password, phone, enabled, roles);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("User{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", login='").append(login).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", phone=").append(phone);
+        sb.append(", roles=").append(roles);
+        sb.append(", enabled=").append(enabled);
+        sb.append('}');
+        return sb.toString();
     }
 }

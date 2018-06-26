@@ -1,6 +1,7 @@
 package ru.job4j.ioc.carsale.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.ioc.carsale.repository.UserRepository;
@@ -12,6 +13,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -28,6 +32,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void create(User user) {
+        String password = user.getPassword();
+        user.setPassword(passwordEncoder.encode(password));
+
         this.userRepository.save(user);
     }
 
