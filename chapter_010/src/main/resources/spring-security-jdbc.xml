@@ -21,11 +21,11 @@
 
             <form-login
                     login-page="/login.jsp"
-                    default-target-url="/welcome"
+                    default-target-url="/list"
                     authentication-failure-url="/login.jsp?error=true"
                     username-parameter="login"
                     password-parameter="password" />
-            <logout logout-success-url="/"  />
+            <logout logout-success-url="/list"  />
             <csrf disabled="true"/>
         </http>
 

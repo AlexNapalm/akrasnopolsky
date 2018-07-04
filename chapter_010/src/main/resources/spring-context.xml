@@ -18,8 +18,8 @@
     <import resource="servlet-context.xml"/>
     <import resource="spring-security-jdbc.xml"/>
 
-    <context:component-scan base-package="ru.job4j.ioc.*" />
-    <jpa:repositories base-package="ru.job4j.ioc.*" />
+    <context:component-scan base-package="ru.job4j.*" />
+    <jpa:repositories base-package="ru.job4j.*" />
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
